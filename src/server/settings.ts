@@ -37,9 +37,15 @@ function parseStatuses(value: string): Status[] {
     const parsed = z.array(statusSchema).safeParse(JSON.parse(value));
     if (parsed.success) return parsed.data;
   } catch (error) {
-    throw new AppError('SETUP', `The "Task statuses" setting is not valid JSON (${String(error)}). Fix it in the Settings tab or save statuses again from the app.`);
+    throw new AppError(
+      'SETUP',
+      `The "Task statuses" setting is not valid JSON (${String(error)}). Fix it in the Settings tab or save statuses again from the app.`,
+    );
   }
-  throw new AppError('SETUP', 'The "Task statuses" setting has an entry the app cannot read. Fix it in the Settings tab or save statuses again from the app.');
+  throw new AppError(
+    'SETUP',
+    'The "Task statuses" setting has an entry the app cannot read. Fix it in the Settings tab or save statuses again from the app.',
+  );
 }
 
 /** Key/value settings tab, read once per request. */
@@ -49,7 +55,10 @@ export class SettingsStore {
   constructor(workbook: Workbook) {
     const table = workbook.getTable(SETTINGS_TAB.name);
     if (!table) {
-      throw new AppError('SETUP', 'This sheet has no Settings tab yet. Run setup() from the Apps Script editor first.');
+      throw new AppError(
+        'SETUP',
+        'This sheet has no Settings tab yet. Run setup() from the Apps Script editor first.',
+      );
     }
     this.repo = new Repository(table, SETTINGS_TAB);
   }

@@ -8,17 +8,17 @@ TypeScript and bundled with esbuild.
 
 ## Commands
 
-| Task | Command |
-| --- | --- |
-| Install | `npm ci` |
-| Local dev (mock server, fake data) | `npm run dev` |
-| Unit and component tests | `npm test` (watch: `npm run test:watch`) |
-| Lint | `npm run lint` |
-| Type check | `npm run typecheck` |
-| Format | `npm run format` (check only: `npm run format:check`) |
-| Build (`dist/index.html`, `dist/Code.js`, `dist/appsscript.json`) | `npm run build` |
-| Everything CI runs | `npm run check` |
-| Push to Apps Script | `npm run push` (builds, then `clasp push`) |
+| Task                                                              | Command                                               |
+| ----------------------------------------------------------------- | ----------------------------------------------------- |
+| Install                                                           | `npm ci`                                              |
+| Local dev (mock server, fake data)                                | `npm run dev`                                         |
+| Unit and component tests                                          | `npm test` (watch: `npm run test:watch`)              |
+| Lint                                                              | `npm run lint`                                        |
+| Type check                                                        | `npm run typecheck`                                   |
+| Format                                                            | `npm run format` (check only: `npm run format:check`) |
+| Build (`dist/index.html`, `dist/Code.js`, `dist/appsscript.json`) | `npm run build`                                       |
+| Everything CI runs                                                | `npm run check`                                       |
+| Push to Apps Script                                               | `npm run push` (builds, then `clasp push`)            |
 
 ### Deploy
 
@@ -32,16 +32,16 @@ TypeScript and bundled with esbuild.
 
 ## Layout
 
-| Path | Responsibility |
-| --- | --- |
-| `src/shared/` | Types, Zod schemas and pure business rules, used by client and server |
-| `src/server/main.ts` | `doGet()`: access check, then serves the built page |
-| `src/server/auth.ts` | Signed-in email and allowlist check |
-| `src/server/api.ts` | Functions the page calls; every one checks access first |
-| `src/server/repository.ts` | Generic read, insert, update and archive for any tab, by header name |
-| `src/server/setup.ts` | `setup()`: creates missing tabs, headers and default settings |
-| `src/client/` | React app: `features/`, `components/`, `lib/api.ts` (typed server wrapper) |
-| `src/client/mocks/` | Fake server and sample data for local development and tests |
+| Path                       | Responsibility                                                             |
+| -------------------------- | -------------------------------------------------------------------------- |
+| `src/shared/`              | Types, Zod schemas and pure business rules, used by client and server      |
+| `src/server/main.ts`       | `doGet()`: access check, then serves the built page                        |
+| `src/server/auth.ts`       | Signed-in email and allowlist check                                        |
+| `src/server/api.ts`        | Functions the page calls; every one checks access first                    |
+| `src/server/repository.ts` | Generic read, insert, update and archive for any tab, by header name       |
+| `src/server/setup.ts`      | `setup()`: creates missing tabs, headers and default settings              |
+| `src/client/`              | React app: `features/`, `components/`, `lib/api.ts` (typed server wrapper) |
+| `src/client/mocks/`        | Fake server and sample data for local development and tests                |
 
 ## Engineering principles
 

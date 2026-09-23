@@ -33,7 +33,10 @@ function saveStatuses(ctx: RequestContext, [input]: unknown[]): Status[] {
     if (renames.size > 0) {
       tasks.updateWhere(
         (row) => renames.has(cellText(row['Status'])),
-        (row) => ({ ...row, Status: renames.get(cellText(row['Status'])) ?? cellText(row['Status']) }),
+        (row) => ({
+          ...row,
+          Status: renames.get(cellText(row['Status'])) ?? cellText(row['Status']),
+        }),
       );
     }
     ctx.settings.set(SETTING_KEYS.taskStatuses, JSON.stringify(statuses));
@@ -45,7 +48,10 @@ function saveAllowedEmails(ctx: RequestContext, [input]: unknown[]): string[] {
   const emails = [...new Set(parseInput(emailListSchema, input))];
   const own = ctx.deps.currentEmail().trim().toLowerCase();
   if (!emails.includes(own)) {
-    throw new AppError('VALIDATION', 'You cannot remove your own email, or you would lose access to the app.');
+    throw new AppError(
+      'VALIDATION',
+      'You cannot remove your own email, or you would lose access to the app.',
+    );
   }
   return ctx.deps.withLock(() => {
     ctx.settings.set(SETTING_KEYS.allowedEmails, emails.join(', '));

@@ -9,7 +9,8 @@ const GLOBAL = '__app';
 /** Apps Script only calls top-level functions, so each export gets a plain global wrapper. */
 function globalWrappers(): string {
   const api = SERVER_FUNCTIONS.map(
-    (name) => `function ${name}() { return ${GLOBAL}.serverFunctions.${name}.apply(null, arguments); }`,
+    (name) =>
+      `function ${name}() { return ${GLOBAL}.serverFunctions.${name}.apply(null, arguments); }`,
   );
   return [
     `function doGet(e) { return ${GLOBAL}.doGet(e); }`,
@@ -40,4 +41,6 @@ await buildClient({ logLevel: 'warn' });
 await buildServer();
 copyFileSync('appsscript.json', `${DIST}/appsscript.json`);
 const size = readFileSync(`${DIST}/index.html`).byteLength;
-console.log(`Built ${DIST}/index.html (${Math.round(size / 1024)} KB), ${DIST}/Code.js, ${DIST}/appsscript.json`);
+console.log(
+  `Built ${DIST}/index.html (${Math.round(size / 1024)} KB), ${DIST}/Code.js, ${DIST}/appsscript.json`,
+);

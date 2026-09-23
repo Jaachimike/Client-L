@@ -29,19 +29,22 @@ describe('access control', () => {
     expect(decidePage(deps).kind).toBe('denied');
   });
 
-  it.each(SERVER_FUNCTIONS)('%s returns an access error and reads no data rows for a stranger', (name) => {
-    const { deps, api } = freshApp();
-    unwrap(api.saveClient({ name: 'Acme' }));
-    deps.email = 'stranger@example.com';
-    const clients = tab(deps, 'Clients');
-    const tasks = tab(deps, 'Tasks');
-    const clientReads = vi.spyOn(clients, 'readAll');
-    const taskReads = vi.spyOn(tasks, 'readAll');
-    const result = api[name]({ name: 'x' }, true);
-    expect(result).toMatchObject({ ok: false, data: null, error: { code: 'ACCESS_DENIED' } });
-    expect(clientReads).not.toHaveBeenCalled();
-    expect(taskReads).not.toHaveBeenCalled();
-  });
+  it.each(SERVER_FUNCTIONS)(
+    '%s returns an access error and reads no data rows for a stranger',
+    (name) => {
+      const { deps, api } = freshApp();
+      unwrap(api.saveClient({ name: 'Acme' }));
+      deps.email = 'stranger@example.com';
+      const clients = tab(deps, 'Clients');
+      const tasks = tab(deps, 'Tasks');
+      const clientReads = vi.spyOn(clients, 'readAll');
+      const taskReads = vi.spyOn(tasks, 'readAll');
+      const result = api[name]({ name: 'x' }, true);
+      expect(result).toMatchObject({ ok: false, data: null, error: { code: 'ACCESS_DENIED' } });
+      expect(clientReads).not.toHaveBeenCalled();
+      expect(taskReads).not.toHaveBeenCalled();
+    },
+  );
 
   it('grants access on the next load after an email is added, without redeploying', () => {
     const { deps, api } = freshApp();
@@ -60,7 +63,10 @@ describe('access control', () => {
 
   it('refuses to remove your own email', () => {
     const { api } = freshApp();
-    expect(api.saveAllowedEmails(['other@example.com'])).toMatchObject({ ok: false, error: { code: 'VALIDATION' } });
+    expect(api.saveAllowedEmails(['other@example.com'])).toMatchObject({
+      ok: false,
+      error: { code: 'VALIDATION' },
+    });
   });
 
   it('asks for setup when the sheet has no Settings tab', () => {

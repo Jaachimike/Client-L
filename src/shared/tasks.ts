@@ -43,7 +43,11 @@ function matchesDue(task: Task, filters: TaskFilters, ctx: TaskContext): boolean
 }
 
 /** Applies every filter except status, so status chips can show counts for the rest. */
-export function filterTasksExceptStatus(tasks: Task[], filters: TaskFilters, ctx: TaskContext): Task[] {
+export function filterTasksExceptStatus(
+  tasks: Task[],
+  filters: TaskFilters,
+  ctx: TaskContext,
+): Task[] {
   const words = searchWords(filters.search ?? '');
   return tasks.filter(
     (task) =>

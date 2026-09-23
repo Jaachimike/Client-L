@@ -8,10 +8,15 @@ import { taskHandlers } from './tasksService';
 
 type Handler<T> = (ctx: RequestContext, args: unknown[]) => T;
 
-const UNEXPECTED_MESSAGE = 'Something went wrong while talking to the sheet. Try again in a moment.';
+const UNEXPECTED_MESSAGE =
+  'Something went wrong while talking to the sheet. Try again in a moment.';
 
 /** Checks access on every call, then turns thrown errors into `{ ok: false, error }`. */
-export function runHandler<T>(deps: ServerDeps, handler: Handler<T>, args: unknown[]): ApiResult<T> {
+export function runHandler<T>(
+  deps: ServerDeps,
+  handler: Handler<T>,
+  args: unknown[],
+): ApiResult<T> {
   try {
     const ctx = new RequestContext(deps);
     ctx.checkAccess();

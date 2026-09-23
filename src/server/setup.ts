@@ -9,7 +9,9 @@ function ensureHeaders(table: TableStore, tab: TabDefinition): string[] {
   const headers = headerRow.map(cellText);
   while (headers.length > 0 && headers[headers.length - 1] === '') headers.pop();
   const present = new Set(headers.map((h) => h.toLowerCase()));
-  const added = tab.columns.filter((c) => !present.has(c.header.toLowerCase())).map((c) => c.header);
+  const added = tab.columns
+    .filter((c) => !present.has(c.header.toLowerCase()))
+    .map((c) => c.header);
   const finalHeaders = [...headers, ...added];
   if (added.length > 0) table.writeRows(0, [finalHeaders]);
   for (const column of tab.columns) {

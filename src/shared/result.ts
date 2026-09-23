@@ -1,4 +1,5 @@
-export type ErrorCode = 'ACCESS_DENIED' | 'VALIDATION' | 'NOT_FOUND' | 'CONFLICT' | 'SETUP' | 'UNEXPECTED';
+export type ErrorCode =
+  'ACCESS_DENIED' | 'VALIDATION' | 'NOT_FOUND' | 'CONFLICT' | 'SETUP' | 'UNEXPECTED';
 
 export interface ApiError {
   code: ErrorCode;
@@ -6,7 +7,8 @@ export interface ApiError {
   fields?: Record<string, string>;
 }
 
-export type ApiResult<T> = { ok: true; data: T; error: null } | { ok: false; data: null; error: ApiError };
+export type ApiResult<T> =
+  { ok: true; data: T; error: null } | { ok: false; data: null; error: ApiError };
 
 export function ok<T>(data: T): ApiResult<T> {
   return { ok: true, data, error: null };

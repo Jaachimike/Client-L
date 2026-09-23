@@ -2,7 +2,13 @@ import { describe, expect, it } from 'vitest';
 import type { Status } from '../shared/types';
 import { freshApp, unwrap } from './testHelpers';
 
-const waiting: Status = { id: 'waiting', name: 'Waiting on client', color: '#7A4209', done: false, retired: false };
+const waiting: Status = {
+  id: 'waiting',
+  name: 'Waiting on client',
+  color: '#7A4209',
+  done: false,
+  retired: false,
+};
 
 function setup() {
   const app = freshApp();
@@ -28,14 +34,27 @@ describe('task statuses', () => {
     if (!first) throw new Error('missing default status');
     unwrap(api.saveStatuses([first, waiting, ...rest]));
     const saved = unwrap(api.getBootstrap()).statuses;
-    expect(saved.map((s) => s.name)).toEqual(['To do', 'Waiting on client', 'In progress', 'Delivered']);
+    expect(saved.map((s) => s.name)).toEqual([
+      'To do',
+      'Waiting on client',
+      'In progress',
+      'Delivered',
+    ]);
     expect(saved[1]?.color).toBe('#7A4209');
-    expect(unwrap(api.setTaskStatus(task.id, 'Waiting on client')).status).toBe('Waiting on client');
+    expect(unwrap(api.setTaskStatus(task.id, 'Waiting on client')).status).toBe(
+      'Waiting on client',
+    );
   });
 
   it('counts a custom done status as done', () => {
     const { api, statuses, task } = setup();
-    const invoiced: Status = { id: 'invoiced', name: 'Invoiced', color: '#1A524E', done: true, retired: false };
+    const invoiced: Status = {
+      id: 'invoiced',
+      name: 'Invoiced',
+      color: '#1A524E',
+      done: true,
+      retired: false,
+    };
     unwrap(api.saveStatuses([...statuses, invoiced]));
     expect(unwrap(api.setTaskStatus(task.id, 'Invoiced')).deliveredOn).toBe('2026-10-01');
   });
@@ -53,7 +72,9 @@ describe('task statuses', () => {
 
   it('keeps a retired status on existing tasks but does not give it to new ones', () => {
     const { api, statuses, task } = setup();
-    unwrap(api.saveStatuses(statuses.map((s) => (s.name === 'To do' ? { ...s, retired: true } : s))));
+    unwrap(
+      api.saveStatuses(statuses.map((s) => (s.name === 'To do' ? { ...s, retired: true } : s))),
+    );
     expect(unwrap(api.listTasks()).find((t) => t.id === task.id)?.status).toBe('To do');
     const fresh = unwrap(api.saveTask({ clientId: task.clientId, title: 'New' }));
     expect(fresh.status).toBe('In progress');
@@ -69,7 +90,9 @@ describe('task statuses', () => {
 
   it('renames the status on every task that uses it', () => {
     const { api, statuses, task } = setup();
-    unwrap(api.saveStatuses(statuses.map((s) => (s.name === 'To do' ? { ...s, name: 'Backlog' } : s))));
+    unwrap(
+      api.saveStatuses(statuses.map((s) => (s.name === 'To do' ? { ...s, name: 'Backlog' } : s))),
+    );
     expect(unwrap(api.listTasks()).find((t) => t.id === task.id)?.status).toBe('Backlog');
   });
 

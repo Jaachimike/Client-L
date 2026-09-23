@@ -12,7 +12,8 @@ export function freshApp(today = '2026-10-01') {
 }
 
 export function unwrap<T>(result: ApiResult<T>): T {
-  if (!result.ok) throw new Error(`Expected success but got ${result.error.code}: ${result.error.message}`);
+  if (!result.ok)
+    throw new Error(`Expected success but got ${result.error.code}: ${result.error.message}`);
   return result.data;
 }
 
