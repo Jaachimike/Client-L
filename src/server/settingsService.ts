@@ -1,4 +1,6 @@
+import type { Defaults } from '../shared/api';
 import { AppError } from '../shared/result';
+import { defaultsSchema } from '../shared/renewalSchemas';
 import { emailListSchema, statusListSchema } from '../shared/schemas';
 import { diffStatuses } from '../shared/statuses';
 import type { Bootstrap, Status } from '../shared/types';
@@ -13,7 +15,21 @@ function getBootstrap(ctx: RequestContext): Bootstrap {
     today: ctx.deps.today(),
     statuses: ctx.settings.statuses(),
     allowedEmails: ctx.settings.allowedEmails(),
+    defaultCurrency: ctx.settings.defaultCurrency(),
+    currencies: ctx.settings.currencies(),
+    warningDays: ctx.settings.warningDays(),
   };
+}
+
+function saveDefaults(ctx: RequestContext, [input]: unknown[]): Defaults {
+  const data = parseInput(defaultsSchema, input);
+  const currencies = [...new Set([data.defaultCurrency, ...data.currencies])];
+  return ctx.deps.withLock(() => {
+    ctx.settings.set(SETTING_KEYS.defaultCurrency, data.defaultCurrency);
+    ctx.settings.set(SETTING_KEYS.currencies, currencies.join(', '));
+    ctx.settings.set(SETTING_KEYS.expiryWarningDays, String(data.warningDays));
+    return { defaultCurrency: data.defaultCurrency, currencies, warningDays: data.warningDays };
+  });
 }
 
 function saveStatuses(ctx: RequestContext, [input]: unknown[]): Status[] {
@@ -63,4 +79,5 @@ export const settingsHandlers = {
   getBootstrap: (ctx: RequestContext) => getBootstrap(ctx),
   saveStatuses,
   saveAllowedEmails,
+  saveDefaults,
 };

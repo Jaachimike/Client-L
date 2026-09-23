@@ -4,7 +4,7 @@ import { statusNameSchema, taskFiltersSchema, taskInputSchema, idSchema } from '
 import { defaultStatusName, statusOptionsFor } from '../shared/statuses';
 import { filterTasks, sortTasks, withStatus } from '../shared/tasks';
 import type { Task } from '../shared/types';
-import { requireClient } from './clientsService';
+import { requireUsableClient } from './clientsService';
 import { parseInput, type RequestContext } from './context';
 import { rowToTask, taskToRow } from './records';
 
@@ -29,24 +29,15 @@ function listTasks(ctx: RequestContext, [filters]: unknown[]): Task[] {
 function saveTask(ctx: RequestContext, [input]: unknown[]): Task {
   const data = parseInput(taskInputSchema, input);
   return ctx.deps.withLock(() => {
-    const client = requireClient(ctx, data.clientId);
     const now = ctx.deps.now();
     if (data.id) {
       const existing = requireTask(ctx, data.id);
-      if (client.archived && client.id !== existing.clientId) {
-        throw new AppError('VALIDATION', `${client.name} is archived. Choose an active client.`, {
-          clientId: 'Choose an active client.',
-        });
-      }
+      requireUsableClient(ctx, data.clientId, existing.clientId);
       const task: Task = { ...existing, ...data, id: existing.id, updated: now };
       ctx.tasks().update(task.id, taskToRow(task));
       return task;
     }
-    if (client.archived) {
-      throw new AppError('VALIDATION', `${client.name} is archived. Choose an active client.`, {
-        clientId: 'Choose an active client.',
-      });
-    }
+    requireUsableClient(ctx, data.clientId);
     const task: Task = {
       ...data,
       id: ctx.deps.newId(),

@@ -36,6 +36,9 @@ export interface Bootstrap {
   today: string;
   statuses: Status[];
   allowedEmails: string[];
+  defaultCurrency: string;
+  currencies: string[];
+  warningDays: number;
 }
 
 export type DueFilter = 'any' | 'overdue' | 'week' | 'none';
@@ -45,4 +48,61 @@ export interface TaskFilters {
   status?: string;
   due?: DueFilter;
   search?: string;
+}
+
+export type ContractCycle = 'Monthly' | 'Quarterly' | 'Yearly';
+export type SubscriptionCycle = 'Monthly' | 'Yearly';
+export type PaidBy = 'Rebill' | 'Client card' | 'Contract';
+
+export interface Contract {
+  id: string;
+  clientId: string;
+  name: string;
+  startDate: string;
+  endDate: string;
+  fee: number;
+  currency: string;
+  billingCycle: ContractCycle;
+  renewedById: string;
+  notes: string;
+  created: string;
+}
+
+export type ContractState = 'Active' | 'Expiring soon' | 'Expired' | 'Renewed';
+
+export interface Subscription {
+  id: string;
+  clientId: string;
+  service: string;
+  provider: string;
+  plan: string;
+  cost: number;
+  currency: string;
+  billingCycle: SubscriptionCycle;
+  nextRenewal: string;
+  billingDay: number;
+  autoRenew: boolean;
+  paidBy: PaidBy;
+  accountEmail: string;
+  rebillDue: string;
+  cancelled: boolean;
+  notes: string;
+  created: string;
+}
+
+export type SubscriptionState = 'Active' | 'Renewing soon' | 'Overdue' | 'Cancelled';
+
+export type TransactionType = 'Inflow' | 'Outflow';
+
+export interface Transaction {
+  id: string;
+  date: string;
+  type: TransactionType;
+  amount: number;
+  currency: string;
+  category: string;
+  clientId: string;
+  description: string;
+  reference: string;
+  created: string;
 }

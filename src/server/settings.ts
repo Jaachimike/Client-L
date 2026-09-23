@@ -12,6 +12,7 @@ export const SETTING_KEYS = {
   allowedEmails: 'Allowed emails',
   taskStatuses: 'Task statuses',
   defaultCurrency: 'Default currency',
+  currencies: 'Currencies',
   expiryWarningDays: 'Expiry warning days',
   appName: 'App name',
 } as const;
@@ -20,9 +21,13 @@ export const DEFAULT_SETTINGS: Record<string, string> = {
   [SETTING_KEYS.allowedEmails]: '',
   [SETTING_KEYS.taskStatuses]: JSON.stringify(DEFAULT_STATUSES),
   [SETTING_KEYS.defaultCurrency]: 'USD',
+  [SETTING_KEYS.currencies]: '',
   [SETTING_KEYS.expiryWarningDays]: '30',
   [SETTING_KEYS.appName]: 'Client Task Tracker',
 };
+
+const FALLBACK_CURRENCY = 'USD';
+const DEFAULT_WARNING_DAYS = 30;
 
 export function parseEmailList(value: string): string[] {
   return value
@@ -86,6 +91,24 @@ export class SettingsStore {
 
   statuses(): Status[] {
     return parseStatuses(this.get(SETTING_KEYS.taskStatuses));
+  }
+
+  defaultCurrency(): string {
+    return this.get(SETTING_KEYS.defaultCurrency).trim().toUpperCase() || FALLBACK_CURRENCY;
+  }
+
+  /** The default currency first, then the rest of the list, without duplicates. */
+  currencies(): string[] {
+    const listed = this.get(SETTING_KEYS.currencies)
+      .split(/[,;\s]+/)
+      .map((code) => code.trim().toUpperCase())
+      .filter(Boolean);
+    return [...new Set([this.defaultCurrency(), ...listed])];
+  }
+
+  warningDays(): number {
+    const days = Number(this.get(SETTING_KEYS.expiryWarningDays));
+    return Number.isInteger(days) && days > 0 ? days : DEFAULT_WARNING_DAYS;
   }
 
   appName(): string {
