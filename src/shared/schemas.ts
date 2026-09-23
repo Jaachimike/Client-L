@@ -4,23 +4,25 @@ import { isIsoDate } from './dates';
 import { parseLinks } from './links';
 
 const optionalText = (max: number, label: string) =>
-  z
-    .string()
-    .trim()
-    .max(max, `${label} must be ${max} characters or fewer.`)
-    .default('');
-
+  z.string().trim().max(max, `${label} must be ${max} characters or fewer.`).default('');
 
 export const clientInputSchema = z.object({
   id: z.string().trim().optional(),
-  name: z.string().trim().min(1, 'Enter a client name.').max(200, 'Name must be 200 characters or fewer.'),
+  name: z
+    .string()
+    .trim()
+    .min(1, 'Enter a client name.')
+    .max(200, 'Name must be 200 characters or fewer.'),
   contactPerson: optionalText(200, 'Contact person'),
   email: z
     .string()
     .trim()
     .max(320)
     .default('')
-    .refine((v) => v === '' || z.string().email().safeParse(v).success, 'Enter a valid email address.'),
+    .refine(
+      (v) => v === '' || z.string().email().safeParse(v).success,
+      'Enter a valid email address.',
+    ),
   phone: optionalText(50, 'Phone'),
   notes: optionalText(5000, 'Notes'),
 });
@@ -29,7 +31,11 @@ export type ClientInput = z.input<typeof clientInputSchema>;
 export const taskInputSchema = z.object({
   id: z.string().trim().optional(),
   clientId: z.string().trim().min(1, 'Choose a client.'),
-  title: z.string().trim().min(1, 'Enter a task title.').max(200, 'Title must be 200 characters or fewer.'),
+  title: z
+    .string()
+    .trim()
+    .min(1, 'Enter a task title.')
+    .max(200, 'Title must be 200 characters or fewer.'),
   description: optionalText(10000, 'Description'),
   links: z
     .string()
@@ -48,7 +54,11 @@ export type TaskInput = z.input<typeof taskInputSchema>;
 
 export const statusSchema = z.object({
   id: z.string().trim().min(1),
-  name: z.string().trim().min(1, 'Every status needs a name.').max(40, 'Status names must be 40 characters or fewer.'),
+  name: z
+    .string()
+    .trim()
+    .min(1, 'Every status needs a name.')
+    .max(40, 'Status names must be 40 characters or fewer.'),
   color: z.string().refine(isHexColor, 'Colours must be a hex value such as #2A0CD0.'),
   done: z.boolean(),
   retired: z.boolean(),
@@ -62,7 +72,10 @@ export const statusListSchema = z
     (list) => new Set(list.map((s) => s.name.toLowerCase())).size === list.length,
     'Two statuses have the same name. Give each one a different name.',
   )
-  .refine((list) => new Set(list.map((s) => s.id)).size === list.length, 'Status IDs must be unique.');
+  .refine(
+    (list) => new Set(list.map((s) => s.id)).size === list.length,
+    'Status IDs must be unique.',
+  );
 
 export const emailListSchema = z
   .array(z.string().trim().toLowerCase().email('One of the allowed emails is not a valid address.'))

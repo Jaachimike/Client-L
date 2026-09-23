@@ -16,7 +16,11 @@ export function readClients(ctx: RequestContext): Client[] {
 
 export function requireClient(ctx: RequestContext, id: string): Client {
   const row = ctx.clients().findById(id);
-  if (!row) throw new AppError('NOT_FOUND', 'That client no longer exists. Reload and choose another client.');
+  if (!row)
+    throw new AppError(
+      'NOT_FOUND',
+      'That client no longer exists. Reload and choose another client.',
+    );
   return rowToClient(row);
 }
 

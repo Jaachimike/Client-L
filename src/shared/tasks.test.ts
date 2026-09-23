@@ -1,6 +1,13 @@
 import { describe, expect, it } from 'vitest';
 import { doneStatusNames, DEFAULT_STATUSES, statusOptionsFor, diffStatuses } from './statuses';
-import { filterTasks, isDueThisWeek, isOverdue, sortTasks, withStatus, type TaskContext } from './tasks';
+import {
+  filterTasks,
+  isDueThisWeek,
+  isOverdue,
+  sortTasks,
+  withStatus,
+  type TaskContext,
+} from './tasks';
 import type { Task } from './types';
 
 const ctx: TaskContext = { today: '2026-10-01', doneStatuses: doneStatusNames(DEFAULT_STATUSES) };
@@ -47,7 +54,13 @@ describe('due this week', () => {
 describe('filterTasks', () => {
   const tasks = [
     task({ id: '1', clientId: 'a', status: 'To do', title: 'Fix login page' }),
-    task({ id: '2', clientId: 'a', status: 'Delivered', title: 'Logo', description: 'New brand colours' }),
+    task({
+      id: '2',
+      clientId: 'a',
+      status: 'Delivered',
+      title: 'Logo',
+      description: 'New brand colours',
+    }),
     task({ id: '3', clientId: 'b', status: 'To do', title: 'Login emails', dueDate: '2026-09-01' }),
   ];
   const ids = (list: Task[]) => list.map((t) => t.id);
@@ -93,7 +106,11 @@ describe('withStatus', () => {
 
   it('keeps the original delivery date when moving between done statuses', () => {
     const custom = { ...ctx, doneStatuses: new Set(['Delivered', 'Invoiced']) };
-    const moved = withStatus(task({ status: 'Delivered', deliveredOn: '2026-09-20' }), 'Invoiced', custom);
+    const moved = withStatus(
+      task({ status: 'Delivered', deliveredOn: '2026-09-20' }),
+      'Invoiced',
+      custom,
+    );
     expect(moved.deliveredOn).toBe('2026-09-20');
   });
 });
@@ -105,7 +122,10 @@ describe('statuses', () => {
   });
 
   it('offers retired statuses only to tasks that already use them', () => {
-    const list = [...DEFAULT_STATUSES, { id: 'w', name: 'Waiting', color: '#7A4209', done: false, retired: true }];
+    const list = [
+      ...DEFAULT_STATUSES,
+      { id: 'w', name: 'Waiting', color: '#7A4209', done: false, retired: true },
+    ];
     expect(statusOptionsFor('To do', list).map((s) => s.name)).not.toContain('Waiting');
     expect(statusOptionsFor('Waiting', list).map((s) => s.name)).toContain('Waiting');
   });

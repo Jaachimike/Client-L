@@ -55,3 +55,11 @@ export function splitTextWithUrls(text: string): TextPart[] {
   if (cursor < text.length) parts.push({ kind: 'text', text: text.slice(cursor) });
   return parts;
 }
+
+/** Valid links only, skipping bad lines, for showing rows that were edited directly in the sheet. */
+export function displayableLinks(text: string): TaskLink[] {
+  return text.split(/\r?\n/).flatMap((line) => {
+    const parsed = parseLinks(line);
+    return parsed.ok ? parsed.links : [];
+  });
+}

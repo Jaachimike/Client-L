@@ -38,7 +38,10 @@ export class RequestContext {
     if (existing) return existing;
     const table = this.deps.workbook.getTable(tab.name);
     if (!table) {
-      throw new AppError('SETUP', `This sheet has no ${tab.name} tab yet. Run setup() from the Apps Script editor first.`);
+      throw new AppError(
+        'SETUP',
+        `This sheet has no ${tab.name} tab yet. Run setup() from the Apps Script editor first.`,
+      );
     }
     const repo = new Repository(table, tab);
     this.repos.set(tab.name, repo);

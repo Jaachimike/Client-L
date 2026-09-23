@@ -11,7 +11,8 @@ const FORMATS: Record<ColumnKind, string> = {
 
 function readCell(value: unknown, timeZone: string): Cell {
   if (value instanceof Date) return Utilities.formatDate(value, timeZone, 'yyyy-MM-dd HH:mm:ss');
-  if (typeof value === 'string' || typeof value === 'number' || typeof value === 'boolean') return value;
+  if (typeof value === 'string' || typeof value === 'number' || typeof value === 'boolean')
+    return value;
   return '';
 }
 
@@ -42,7 +43,9 @@ class SheetTable implements TableStore {
 
   formatColumn(columnIndex: number, kind: ColumnKind): void {
     if (columnIndex < 0) return;
-    this.sheet.getRange(2, columnIndex + 1, this.sheet.getMaxRows() - 1, 1).setNumberFormat(FORMATS[kind]);
+    this.sheet
+      .getRange(2, columnIndex + 1, this.sheet.getMaxRows() - 1, 1)
+      .setNumberFormat(FORMATS[kind]);
   }
 }
 

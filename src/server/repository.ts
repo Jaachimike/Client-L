@@ -52,7 +52,10 @@ export class Repository {
     const index = snapshot.rows.findIndex((row) => this.idOf(snapshot.headers, row) === id);
     const existing = snapshot.rows[index];
     if (index < 0 || !existing) {
-      throw new AppError('NOT_FOUND', `That record no longer exists in the ${this.tab.name} tab. Reload and try again.`);
+      throw new AppError(
+        'NOT_FOUND',
+        `That record no longer exists in the ${this.tab.name} tab. Reload and try again.`,
+      );
     }
     const row = this.toCells(snapshot.headers, patch, existing);
     this.store.writeRows(index + 1, [row]);

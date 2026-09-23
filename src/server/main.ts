@@ -14,7 +14,8 @@ export function decidePage(deps: ServerDeps): PageDecision {
   try {
     const settings = new SettingsStore(deps.workbook);
     const email = deps.currentEmail();
-    if (!isAllowed(email, settings.allowedEmails())) return { kind: 'denied', html: accessDeniedPage(email) };
+    if (!isAllowed(email, settings.allowedEmails()))
+      return { kind: 'denied', html: accessDeniedPage(email) };
     return { kind: 'app', appName: settings.appName() };
   } catch (error) {
     if (error instanceof AppError && error.code === 'SETUP') {

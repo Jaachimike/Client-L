@@ -10,7 +10,8 @@ import { rowToTask, taskToRow } from './records';
 
 function requireTask(ctx: RequestContext, id: string): Task {
   const row = ctx.tasks().findById(id);
-  if (!row) throw new AppError('NOT_FOUND', 'That task no longer exists. Reload to see the latest list.');
+  if (!row)
+    throw new AppError('NOT_FOUND', 'That task no longer exists. Reload to see the latest list.');
   return rowToTask(row);
 }
 
@@ -33,14 +34,18 @@ function saveTask(ctx: RequestContext, [input]: unknown[]): Task {
     if (data.id) {
       const existing = requireTask(ctx, data.id);
       if (client.archived && client.id !== existing.clientId) {
-        throw new AppError('VALIDATION', `${client.name} is archived. Choose an active client.`, { clientId: 'Choose an active client.' });
+        throw new AppError('VALIDATION', `${client.name} is archived. Choose an active client.`, {
+          clientId: 'Choose an active client.',
+        });
       }
       const task: Task = { ...existing, ...data, id: existing.id, updated: now };
       ctx.tasks().update(task.id, taskToRow(task));
       return task;
     }
     if (client.archived) {
-      throw new AppError('VALIDATION', `${client.name} is archived. Choose an active client.`, { clientId: 'Choose an active client.' });
+      throw new AppError('VALIDATION', `${client.name} is archived. Choose an active client.`, {
+        clientId: 'Choose an active client.',
+      });
     }
     const task: Task = {
       ...data,
@@ -63,7 +68,10 @@ function setTaskStatus(ctx: RequestContext, args: unknown[]): Task {
     const existing = requireTask(ctx, id);
     const allowed = statusOptionsFor(existing.status, ctx.settings.statuses());
     if (!allowed.some((s) => s.name === status)) {
-      throw new AppError('VALIDATION', `"${status}" is not an available status. Choose one from the list.`);
+      throw new AppError(
+        'VALIDATION',
+        `"${status}" is not an available status. Choose one from the list.`,
+      );
     }
     const task = { ...withStatus(existing, status, ctx.taskContext()), updated: ctx.deps.now() };
     ctx.tasks().update(id, taskToRow(task));

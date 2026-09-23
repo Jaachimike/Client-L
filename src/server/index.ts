@@ -34,7 +34,9 @@ function createDeps(): ServerDeps {
 export function doGet(): GoogleAppsScript.HTML.HtmlOutput {
   const decision = decidePage(createDeps());
   if (decision.kind !== 'app') {
-    return HtmlService.createHtmlOutput(decision.html).setTitle(decision.kind === 'denied' ? 'Access denied' : 'Setup needed');
+    return HtmlService.createHtmlOutput(decision.html).setTitle(
+      decision.kind === 'denied' ? 'Access denied' : 'Setup needed',
+    );
   }
   return HtmlService.createHtmlOutputFromFile('index')
     .setTitle(decision.appName)
