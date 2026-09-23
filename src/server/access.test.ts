@@ -5,6 +5,8 @@ import { decidePage } from './main';
 import { freshApp, OWNER, tab, unwrap } from './testHelpers';
 import { MemoryTable } from './memoryStore';
 
+const DATA_TABS = ['Clients', 'Tasks', 'Contracts', 'Subscriptions', 'Transactions'];
+
 describe('access control', () => {
   it('serves the app to an allowlisted email', () => {
     const { deps } = freshApp();
@@ -35,14 +37,10 @@ describe('access control', () => {
       const { deps, api } = freshApp();
       unwrap(api.saveClient({ name: 'Acme' }));
       deps.email = 'stranger@example.com';
-      const clients = tab(deps, 'Clients');
-      const tasks = tab(deps, 'Tasks');
-      const clientReads = vi.spyOn(clients, 'readAll');
-      const taskReads = vi.spyOn(tasks, 'readAll');
+      const reads = DATA_TABS.map((name) => vi.spyOn(tab(deps, name), 'readAll'));
       const result = api[name]({ name: 'x' }, true);
       expect(result).toMatchObject({ ok: false, data: null, error: { code: 'ACCESS_DENIED' } });
-      expect(clientReads).not.toHaveBeenCalled();
-      expect(taskReads).not.toHaveBeenCalled();
+      for (const read of reads) expect(read).not.toHaveBeenCalled();
     },
   );
 

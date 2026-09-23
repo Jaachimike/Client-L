@@ -18,6 +18,7 @@ describe('setup()', () => {
       'Allowed emails',
       'Task statuses',
       'Default currency',
+      'Currencies',
       'Expiry warning days',
       'App name',
     ]);

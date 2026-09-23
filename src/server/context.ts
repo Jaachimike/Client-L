@@ -5,7 +5,15 @@ import type { TaskContext } from '../shared/tasks';
 import type { ServerDeps } from './deps';
 import { Repository } from './repository';
 import { SettingsStore } from './settings';
-import { CLIENTS_TAB, TASKS_TAB, type TabDefinition } from './tabs';
+import type { RenewalContext } from '../shared/contracts';
+import {
+  CLIENTS_TAB,
+  CONTRACTS_TAB,
+  SUBSCRIPTIONS_TAB,
+  TASKS_TAB,
+  TRANSACTIONS_TAB,
+  type TabDefinition,
+} from './tabs';
 import { requireAccess } from './auth';
 
 /** Per-request state: repositories are created fresh so each tab is read at most once. */
@@ -27,6 +35,22 @@ export class RequestContext {
 
   tasks(): Repository {
     return this.repo(TASKS_TAB);
+  }
+
+  contracts(): Repository {
+    return this.repo(CONTRACTS_TAB);
+  }
+
+  subscriptions(): Repository {
+    return this.repo(SUBSCRIPTIONS_TAB);
+  }
+
+  transactions(): Repository {
+    return this.repo(TRANSACTIONS_TAB);
+  }
+
+  renewalContext(): RenewalContext {
+    return { today: this.deps.today(), warningDays: this.settings.warningDays() };
   }
 
   taskContext(): TaskContext {

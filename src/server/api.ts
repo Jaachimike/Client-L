@@ -1,6 +1,8 @@
 import type { ServerHandlers } from '../shared/api';
 import { AppError, fail, ok, type ApiResult } from '../shared/result';
 import { clientHandlers } from './clientsService';
+import { contractHandlers } from './contractsService';
+import { subscriptionHandlers } from './subscriptionsService';
 import { RequestContext } from './context';
 import type { ServerDeps } from './deps';
 import { settingsHandlers } from './settingsService';
@@ -29,7 +31,13 @@ export function runHandler<T>(
 }
 
 export function createApi(deps: ServerDeps): ServerHandlers {
-  const handlers = { ...clientHandlers, ...taskHandlers, ...settingsHandlers };
+  const handlers = {
+    ...clientHandlers,
+    ...taskHandlers,
+    ...settingsHandlers,
+    ...contractHandlers,
+    ...subscriptionHandlers,
+  };
   return {
     getBootstrap: (...args) => runHandler(deps, handlers.getBootstrap, args),
     listClients: (...args) => runHandler(deps, handlers.listClients, args),
@@ -40,5 +48,15 @@ export function createApi(deps: ServerDeps): ServerHandlers {
     setTaskStatus: (...args) => runHandler(deps, handlers.setTaskStatus, args),
     saveStatuses: (...args) => runHandler(deps, handlers.saveStatuses, args),
     saveAllowedEmails: (...args) => runHandler(deps, handlers.saveAllowedEmails, args),
+    saveDefaults: (...args) => runHandler(deps, handlers.saveDefaults, args),
+    listContracts: (...args) => runHandler(deps, handlers.listContracts, args),
+    saveContract: (...args) => runHandler(deps, handlers.saveContract, args),
+    renewContract: (...args) => runHandler(deps, handlers.renewContract, args),
+    listSubscriptions: (...args) => runHandler(deps, handlers.listSubscriptions, args),
+    saveSubscription: (...args) => runHandler(deps, handlers.saveSubscription, args),
+    markSubscriptionRenewed: (...args) => runHandler(deps, handlers.markSubscriptionRenewed, args),
+    markSubscriptionCharged: (...args) => runHandler(deps, handlers.markSubscriptionCharged, args),
+    setSubscriptionCancelled: (...args) =>
+      runHandler(deps, handlers.setSubscriptionCancelled, args),
   };
 }

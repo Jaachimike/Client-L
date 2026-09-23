@@ -55,3 +55,24 @@ export function dueLabel(dueDate: string, today: string): string {
   if (days < 0) return `${-days} days overdue`;
   return `Due in ${days} days`;
 }
+
+function daysInMonth(year: number, monthIndex: number): number {
+  return new Date(Date.UTC(year, monthIndex + 1, 0)).getUTCDate();
+}
+
+export function dayOfMonth(iso: string): number {
+  return Number(iso.slice(8, 10));
+}
+
+/**
+ * Adds whole months, landing on `anchorDay` or the last day of a shorter month,
+ * so 31 Jan → 28 Feb → 31 Mar when the anchor is 31.
+ */
+export function addMonths(iso: string, months: number, anchorDay = dayOfMonth(iso)): string {
+  const [y = 0, m = 1] = iso.split('-').map(Number);
+  const total = y * 12 + (m - 1) + months;
+  const year = Math.floor(total / 12);
+  const monthIndex = total % 12;
+  const day = Math.min(anchorDay, daysInMonth(year, monthIndex));
+  return new Date(Date.UTC(year, monthIndex, day)).toISOString().slice(0, 10);
+}

@@ -14,6 +14,21 @@ export function readClients(ctx: RequestContext): Client[] {
     .sort((a, b) => a.name.localeCompare(b.name));
 }
 
+/** New records need an active client; an edit may stay with the archived client it already had. */
+export function requireUsableClient(
+  ctx: RequestContext,
+  clientId: string,
+  existingClientId?: string,
+): Client {
+  const client = requireClient(ctx, clientId);
+  if (client.archived && client.id !== existingClientId) {
+    throw new AppError('VALIDATION', `${client.name} is archived. Choose an active client.`, {
+      clientId: 'Choose an active client.',
+    });
+  }
+  return client;
+}
+
 export function requireClient(ctx: RequestContext, id: string): Client {
   const row = ctx.clients().findById(id);
   if (!row)
