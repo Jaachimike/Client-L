@@ -70,3 +70,11 @@ export function nextRenewalDate(
 export function needsCharging(sub: Subscription): boolean {
   return sub.paidBy === 'Rebill' && sub.rebillDue !== '' && !sub.cancelled;
 }
+
+export function renewalLabel(nextRenewal: string, today: string): string {
+  const days = daysBetween(today, nextRenewal);
+  if (days === 0) return 'Renews today';
+  if (days === 1) return 'Renews tomorrow';
+  if (days > 1) return `Renews in ${days} days`;
+  return days === -1 ? '1 day overdue' : `${-days} days overdue`;
+}

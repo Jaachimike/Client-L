@@ -109,3 +109,15 @@ TypeScript and bundled with esbuild.
   moving out clears it.
 - "This week" means today plus the next 6 days, in the spreadsheet's time zone.
 - Tasks are not deleted or archived in v1. Clients can be archived and unarchived.
+- One `Expiry warning days` setting drives both contract "Expiring soon" and subscription
+  "Renewing soon". An end or renewal date of today still counts as soon; it is Expired or Overdue
+  from the next day. Window filters include the boundary day.
+- A contract is Renewed only when the Renew button created its replacement (`Renewed by ID`).
+  Renew pre-fills: start the day after the old end, same length (whole months when the old
+  period was whole months). Contracts are never deleted; ending early means editing the end date.
+- Auto-renew subscriptions still show Overdue after their date until Mark renewed is used.
+- Subscriptions keep a `Billing day` so monthly renewals return to the original day
+  (31 Jan → 28 Feb → 31 Mar), and a `Rebill due` date that shows "Charge client" until cleared.
+- Currencies come from the `Currencies` setting, with the default currency always first.
+- The `Transactions` tab stores Type (Inflow/Outflow) plus a positive Amount. Mark renewed can log
+  one Outflow in category `Subscriptions`.

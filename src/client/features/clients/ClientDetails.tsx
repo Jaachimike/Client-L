@@ -1,17 +1,20 @@
 import { Archive, ArchiveRestore, ArrowLeft, Pencil, Plus } from 'lucide-react';
 import type { ReactNode } from 'react';
+import type { RenewalContext } from '../../../shared/contracts';
 import { sortTasks, type TaskContext } from '../../../shared/tasks';
 import type { Client, Status, Task } from '../../../shared/types';
 import { Button } from '../../components/ui/button';
 import { EmptyState } from '../../components/ui/feedback';
 import { buildHref } from '../../lib/router';
 import { TaskList } from '../tasks/TaskList';
+import { ClientRenewals } from './ClientRenewals';
 
 interface ClientDetailsProps {
   client: Client;
   tasks: Task[];
   statuses: Status[];
   ctx: TaskContext;
+  renewalCtx: RenewalContext;
   onEdit: () => void;
   onToggleArchived: () => void;
   onAddTask: () => void;
@@ -106,12 +109,7 @@ export function ClientDetails(props: ClientDetailsProps) {
           />
         )}
       </Section>
-      <Section title="Contracts">
-        <p className="text-text-muted">Coming in a later release.</p>
-      </Section>
-      <Section title="Subscriptions">
-        <p className="text-text-muted">Coming in a later release.</p>
-      </Section>
+      <ClientRenewals clientId={client.id} ctx={props.renewalCtx} />
       <Section title="Notes">
         {client.notes ? (
           <p className="whitespace-pre-wrap break-words">{client.notes}</p>

@@ -4,8 +4,8 @@ A lightweight web app for keeping track of clients and the tasks they send you. 
 stored in your own Google Sheet and runs under your own Google account, so there is no server to
 host and nothing to pay for.
 
-> Status: early development. Clients, tasks and settings work today. Contracts, subscriptions,
-> cash flow and the dashboard are planned.
+> Status: early development. Clients, tasks, contracts, subscriptions and settings work today.
+> Cash flow and the dashboard are planned.
 
 ## What it does
 
@@ -16,6 +16,10 @@ host and nothing to pay for.
 - **Filters**: by client, status and due date (overdue, due this week, no date), plus search.
 - **Your own statuses**: start with To do, In progress and Delivered, then add your own (for
   example "Waiting on client"), pick colours, reorder or retire them.
+- **Contracts**: retainers and maintenance agreements with their end dates. See what is expiring
+  in the next 30, 60 or 90 days and renew in one step; the old contract stays in the history.
+- **Subscriptions**: domains, hosting, email and licences you manage for clients, with renewal
+  dates, who pays, and a reminder to charge the client when you rebill.
 - **Private by default**: only the Google accounts you allow can open the app.
 
 ## Privacy
@@ -66,7 +70,8 @@ You need Node.js 20 or later and a Google account.
 ### Updating
 
 Run `npm run push`, then **Deploy > Manage deployments > Edit > Version: New version > Deploy**.
-The web app URL stays the same.
+The web app URL stays the same. If the update adds new tabs or settings, run `setup` once more in
+the Apps Script editor; it only adds what is missing and never changes your data.
 
 ### Letting other people in
 

@@ -9,7 +9,7 @@ export const queryKeys = {
   tasks: ['tasks'] as const,
 };
 
-function upsert<T extends { id: string }>(list: T[] | undefined, item: T): T[] {
+export function upsert<T extends { id: string }>(list: T[] | undefined, item: T): T[] {
   const current = list ?? [];
   return current.some((x) => x.id === item.id)
     ? current.map((x) => (x.id === item.id ? item : x))

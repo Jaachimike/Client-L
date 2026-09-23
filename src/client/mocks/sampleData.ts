@@ -28,6 +28,7 @@ export function seedSampleData(api: ServerHandlers, today: string): void {
     api.saveClient({ name: 'Old Mill Co', notes: 'Project finished in 2025.' }),
   );
   api.setClientArchived(archived, true);
+  seedRenewals(api, today, { northwind, harbour, lumen });
 
   const tasks = [
     {
@@ -66,4 +67,84 @@ export function seedSampleData(api: ServerHandlers, today: string): void {
   const [, orderForm, , , , handover] = ids;
   if (orderForm) api.setTaskStatus(orderForm, 'In progress');
   if (handover) api.setTaskStatus(handover, 'Delivered');
+}
+
+function seedRenewals(
+  api: ServerHandlers,
+  today: string,
+  ids: Record<'northwind' | 'harbour' | 'lumen', string>,
+): void {
+  api.saveDefaults({ defaultCurrency: 'NGN', currencies: ['NGN', 'USD'], warningDays: 30 });
+  const contracts = [
+    {
+      clientId: ids.harbour,
+      name: 'Website care plan',
+      startDate: addDays(today, -345),
+      endDate: addDays(today, 20),
+      fee: 150000,
+      billingCycle: 'Monthly',
+    },
+    {
+      clientId: ids.northwind,
+      name: 'Menu updates retainer',
+      startDate: addDays(today, -190),
+      endDate: addDays(today, -10),
+      fee: 90000,
+      billingCycle: 'Quarterly',
+    },
+    {
+      clientId: ids.lumen,
+      name: 'Hosting and support',
+      startDate: addDays(today, -30),
+      endDate: addDays(today, 335),
+      fee: 400000,
+      billingCycle: 'Yearly',
+    },
+  ];
+  for (const contract of contracts) api.saveContract({ ...contract, currency: 'NGN' });
+  const subscriptions = [
+    {
+      clientId: ids.northwind,
+      service: 'Domain',
+      provider: 'Whogohost',
+      cost: 15000,
+      currency: 'NGN',
+      billingCycle: 'Yearly',
+      nextRenewal: addDays(today, 5),
+      paidBy: 'Rebill',
+    },
+    {
+      clientId: ids.harbour,
+      service: 'Hosting',
+      provider: 'DigitalOcean',
+      cost: 12,
+      currency: 'USD',
+      billingCycle: 'Monthly',
+      nextRenewal: addDays(today, -2),
+      autoRenew: true,
+      paidBy: 'Rebill',
+    },
+    {
+      clientId: ids.lumen,
+      service: 'Google Workspace',
+      provider: 'Google',
+      cost: 7,
+      currency: 'USD',
+      billingCycle: 'Monthly',
+      nextRenewal: addDays(today, 18),
+      autoRenew: true,
+      paidBy: 'Client card',
+    },
+    {
+      clientId: ids.harbour,
+      service: 'SSL certificate',
+      provider: 'Namecheap',
+      cost: 9000,
+      currency: 'NGN',
+      billingCycle: 'Yearly',
+      nextRenewal: addDays(today, 120),
+      paidBy: 'Contract',
+    },
+  ];
+  for (const sub of subscriptions) api.saveSubscription(sub);
 }
