@@ -1,4 +1,12 @@
-import { ListChecks, Settings, Users, type LucideIcon } from 'lucide-react';
+import {
+  CalendarClock,
+  FileText,
+  ListChecks,
+  RefreshCw,
+  Settings,
+  Users,
+  type LucideIcon,
+} from 'lucide-react';
 import type { ReactNode } from 'react';
 import { cn } from '../lib/cn';
 import { buildHref } from '../lib/router';
@@ -7,13 +15,25 @@ interface NavItem {
   path: string;
   label: string;
   icon: LucideIcon;
+  /** Other sections that also mark this item as current. */
+  alsoActive?: string[];
 }
 
 const MAIN_NAV: NavItem[] = [
   { path: '/tasks', label: 'Tasks', icon: ListChecks },
   { path: '/clients', label: 'Clients', icon: Users },
+  { path: '/contracts', label: 'Contracts', icon: FileText },
+  { path: '/subscriptions', label: 'Subscriptions', icon: RefreshCw },
 ];
 const SETTINGS_NAV: NavItem = { path: '/settings', label: 'Settings', icon: Settings };
+
+/** Phones have room for fewer tabs, so contracts and subscriptions share one Renewals tab. */
+const PHONE_NAV: NavItem[] = [
+  { path: '/tasks', label: 'Tasks', icon: ListChecks },
+  { path: '/clients', label: 'Clients', icon: Users },
+  { path: '/contracts', label: 'Renewals', icon: CalendarClock, alsoActive: ['/subscriptions'] },
+  SETTINGS_NAV,
+];
 
 function SideLink({ item, active }: { item: NavItem; active: boolean }) {
   const Icon = item.icon;
@@ -67,7 +87,9 @@ interface AppShellProps {
 
 export function AppShell({ appName, email, activePath, children }: AppShellProps) {
   const isActive = (item: NavItem) =>
-    activePath === item.path || activePath.startsWith(`${item.path}/`);
+    [item.path, ...(item.alsoActive ?? [])].some(
+      (path) => activePath === path || activePath.startsWith(`${path}/`),
+    );
   return (
     <div className="min-h-screen bg-bg">
       <a
@@ -105,7 +127,7 @@ export function AppShell({ appName, email, activePath, children }: AppShellProps
         aria-label="Main"
         className="fixed inset-x-0 bottom-0 z-30 flex border-t border-border bg-surface sm:hidden"
       >
-        {[...MAIN_NAV, SETTINGS_NAV].map((item) => (
+        {PHONE_NAV.map((item) => (
           <TabLink key={item.path} item={item} active={isActive(item)} />
         ))}
       </nav>

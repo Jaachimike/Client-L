@@ -57,4 +57,33 @@ describe('Settings screen', () => {
     server.deps.email = 'partner@example.com';
     expect(server.api.listClients().ok).toBe(true);
   });
+
+  it('changes the warning window, and contracts follow it', async () => {
+    const { user } = renderApp({
+      hash: '/settings',
+      seed: (s) => {
+        const client = created(s.api.saveClient({ name: 'Acme' }));
+        created(
+          s.api.saveContract({
+            clientId: client.id,
+            name: 'Hosting',
+            startDate: '2026-01-01',
+            endDate: '2026-11-15',
+            fee: 1000,
+            currency: 'USD',
+            billingCycle: 'Yearly',
+          }),
+        );
+      },
+    });
+    const days = await screen.findByLabelText('Warning window (days)');
+    await user.clear(days);
+    await user.type(days, '60');
+    await user.click(screen.getByRole('button', { name: 'Save defaults' }));
+    expect(await screen.findByText('Defaults saved.')).toBeInTheDocument();
+
+    window.location.hash = '/contracts';
+    const table = within(await screen.findByRole('table'));
+    expect(table.getByText('Expiring soon')).toBeInTheDocument();
+  });
 });

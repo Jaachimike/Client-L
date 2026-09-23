@@ -2,11 +2,15 @@ import type { ReactNode } from 'react';
 import { AppShell } from './components/AppShell';
 import { ErrorState, LoadingState } from './components/ui/feedback';
 import { ClientsPage } from './features/clients/ClientsPage';
+import { ContractsPage } from './features/contracts/ContractsPage';
+import { SubscriptionsPage } from './features/subscriptions/SubscriptionsPage';
 import { SettingsPage } from './features/settings/SettingsPage';
 import { TasksPage } from './features/tasks/TasksPage';
 import { errorMessage } from './lib/api';
 import { useBootstrap } from './lib/queries';
 import { useRoute } from './lib/router';
+
+const SECTIONS = ['tasks', 'clients', 'contracts', 'subscriptions', 'settings'];
 
 export function App() {
   const route = useRoute();
@@ -34,6 +38,8 @@ export function App() {
   const section = route.segments[0] ?? 'tasks';
   let page: ReactNode;
   if (section === 'clients') page = <ClientsPage bootstrap={data} route={route} />;
+  else if (section === 'contracts') page = <ContractsPage bootstrap={data} route={route} />;
+  else if (section === 'subscriptions') page = <SubscriptionsPage bootstrap={data} route={route} />;
   else if (section === 'settings') page = <SettingsPage bootstrap={data} />;
   else page = <TasksPage key={route.path} bootstrap={data} route={route} />;
 
@@ -41,7 +47,7 @@ export function App() {
     <AppShell
       appName={data.appName}
       email={data.email}
-      activePath={section === 'clients' || section === 'settings' ? `/${section}` : '/tasks'}
+      activePath={SECTIONS.includes(section) ? `/${section}` : '/tasks'}
     >
       {page}
     </AppShell>

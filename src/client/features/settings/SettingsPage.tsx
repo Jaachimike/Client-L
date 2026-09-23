@@ -6,6 +6,7 @@ import { ErrorState, LoadingState } from '../../components/ui/feedback';
 import { errorMessage } from '../../lib/api';
 import { useTasks } from '../../lib/queries';
 import { AccessList } from './AccessList';
+import { DefaultsForm } from './DefaultsForm';
 import { StatusEditor } from './StatusEditor';
 
 export function SettingsPage({ bootstrap }: { bootstrap: Bootstrap }) {
@@ -28,13 +29,7 @@ export function SettingsPage({ bootstrap }: { bootstrap: Bootstrap }) {
         )}
         <div className="flex flex-col gap-5">
           <AccessList allowedEmails={bootstrap.allowedEmails} ownEmail={bootstrap.email} />
-          <section className="rounded-xl border border-border bg-surface p-5 text-[13px] text-text-muted sm:p-6">
-            <h2 className="mb-1 font-heading text-2xl font-semibold text-text">
-              Warnings and defaults
-            </h2>
-            Default currency, the expiry warning window and the app name live in the Settings tab of
-            the sheet.
-          </section>
+          <DefaultsForm bootstrap={bootstrap} />
         </div>
       </div>
     </>

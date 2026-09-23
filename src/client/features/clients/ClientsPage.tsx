@@ -149,6 +149,7 @@ export function ClientsPage({ bootstrap, route }: { bootstrap: Bootstrap; route:
                 tasks={tasks}
                 statuses={bootstrap.statuses}
                 ctx={ctx}
+                renewalCtx={{ today: bootstrap.today, warningDays: bootstrap.warningDays }}
                 onEdit={() => setClientPanel({ mode: 'edit', client: selected })}
                 onToggleArchived={() => toggleArchived(selected)}
                 onAddTask={() => setTaskPanel({ mode: 'new', clientId: selected.id })}
