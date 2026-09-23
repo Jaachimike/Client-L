@@ -59,6 +59,10 @@ You need Node.js 20 or later and a Google account.
 5. Deploy: **Deploy > New deployment > Web app**. Set **Execute as** to _Me_ and **Who has
    access** to _Anyone with a Google account_. Open the web app URL and bookmark it.
 
+> **"Sorry, unable to open the file at present"?** This is a Google bug that affects Apps Script
+> web apps when the browser is signed in to more than one Google account. Open the app in a
+> browser profile signed in only with the account that deployed it (or in a private window).
+
 ### Updating
 
 Run `npm run push`, then **Deploy > Manage deployments > Edit > Version: New version > Deploy**.
