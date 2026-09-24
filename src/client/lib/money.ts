@@ -11,3 +11,18 @@ export function formatMoney(amount: number, currency: string): string {
     throw error;
   }
 }
+
+/** Short form for chart axes and labels, e.g. ₦1.2M. */
+export function formatCompact(amount: number, currency: string): string {
+  try {
+    return new Intl.NumberFormat('en-NG', {
+      style: 'currency',
+      currency,
+      notation: 'compact',
+      maximumFractionDigits: 1,
+    }).format(amount);
+  } catch (error) {
+    if (error instanceof RangeError) return `${currency} ${amount}`;
+    throw error;
+  }
+}

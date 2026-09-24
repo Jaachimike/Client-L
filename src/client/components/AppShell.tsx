@@ -1,10 +1,12 @@
 import {
   CalendarClock,
+  Ellipsis,
   FileText,
   ListChecks,
   RefreshCw,
   Settings,
   Users,
+  Wallet,
   type LucideIcon,
 } from 'lucide-react';
 import type { ReactNode } from 'react';
@@ -24,6 +26,7 @@ const MAIN_NAV: NavItem[] = [
   { path: '/clients', label: 'Clients', icon: Users },
   { path: '/contracts', label: 'Contracts', icon: FileText },
   { path: '/subscriptions', label: 'Subscriptions', icon: RefreshCw },
+  { path: '/cashflow', label: 'Cash flow', icon: Wallet },
 ];
 const SETTINGS_NAV: NavItem = { path: '/settings', label: 'Settings', icon: Settings };
 
@@ -32,7 +35,7 @@ const PHONE_NAV: NavItem[] = [
   { path: '/tasks', label: 'Tasks', icon: ListChecks },
   { path: '/clients', label: 'Clients', icon: Users },
   { path: '/contracts', label: 'Renewals', icon: CalendarClock, alsoActive: ['/subscriptions'] },
-  SETTINGS_NAV,
+  { path: '/more', label: 'More', icon: Ellipsis, alsoActive: ['/cashflow', '/settings'] },
 ];
 
 function SideLink({ item, active }: { item: NavItem; active: boolean }) {
