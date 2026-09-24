@@ -1,6 +1,6 @@
 {
   "name": "client-task-tracker",
-  "version": "0.1.0",
+  "version": "1.0.0",
   "description": "Track clients and their tasks in your own Google Sheet.",
   "scripts": {
     "dev": "vite",
@@ -60,6 +60,6 @@
   "private": true,
   "type": "module",
   "engines": {
-    "node": ">=20"
+    "node": ">=22"
   }
 }

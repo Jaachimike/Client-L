@@ -32,3 +32,15 @@ All notable changes to this project are documented here. The format follows
 - Import CSV: bring in an existing Inflow/Outflow sheet with a preview first. It lists skipped rows
   and why, creates missing clients, suggests categories, and skips rows already imported.
 - Phones get a More tab for Cash flow and Settings.
+- Dashboard as the start page: overdue tasks, tasks due in the next 7 days, contracts ending and
+  subscriptions renewing within the warning window (each opens the matching filter), a needs
+  attention list, a coming up list and this month's cash flow. Phones get a Home tab.
+- A Client Task Tracker menu in the spreadsheet to set up the sheet and add or clear sample data.
+- Sample data: made-up records in every tab, removable in one click without touching your own.
+- README with screenshots, a no-code install from a template copy, permissions explained, a
+  troubleshooting table and how to use your own web address; LICENSE (MIT), CONTRIBUTING.md and
+  issue templates.
+
+### Permissions
+
+- The app now also asks to show menus and alerts in its own spreadsheet, for the new menu.
