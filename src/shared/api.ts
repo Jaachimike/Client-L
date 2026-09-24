@@ -1,4 +1,5 @@
 import type { ApiResult } from './result';
+import type { ImportRowInput, TransactionInput } from './cashSchemas';
 import type { ContractInput, DefaultsInput, SubscriptionInput } from './renewalSchemas';
 import type { ClientInput, TaskInput } from './schemas';
 import type {
@@ -12,7 +13,16 @@ import type {
   Transaction,
 } from './types';
 
-export type Defaults = Pick<Bootstrap, 'defaultCurrency' | 'currencies' | 'warningDays'>;
+export type Defaults = Pick<
+  Bootstrap,
+  'defaultCurrency' | 'currencies' | 'warningDays' | 'categories'
+>;
+
+export interface ImportResult {
+  imported: number;
+  duplicates: number;
+  clientsCreated: string[];
+}
 
 /** Functions the page can call on the server. Every one checks access first. */
 export interface ServerApi {
@@ -40,6 +50,10 @@ export interface ServerApi {
   ): ApiResult<{ subscription: Subscription; transaction: Transaction | null }>;
   markSubscriptionCharged(id: string): ApiResult<Subscription>;
   setSubscriptionCancelled(id: string, cancelled: boolean): ApiResult<Subscription>;
+  listTransactions(): ApiResult<Transaction[]>;
+  saveTransaction(input: TransactionInput): ApiResult<Transaction>;
+  setTransactionVoided(id: string, voided: boolean): ApiResult<Transaction>;
+  importTransactions(rows: ImportRowInput[]): ApiResult<ImportResult>;
 }
 
 export type ServerFunctionName = keyof ServerApi;
@@ -63,6 +77,10 @@ export const SERVER_FUNCTIONS = [
   'markSubscriptionRenewed',
   'markSubscriptionCharged',
   'setSubscriptionCancelled',
+  'listTransactions',
+  'saveTransaction',
+  'setTransactionVoided',
+  'importTransactions',
 ] as const satisfies readonly ServerFunctionName[];
 
 /** Server side receives untrusted input, so every argument is `unknown` until validated. */

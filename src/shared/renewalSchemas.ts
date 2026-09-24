@@ -94,6 +94,9 @@ export const defaultsSchema = z
       .int('Use a whole number of days.')
       .min(1, 'The warning window must be at least 1 day.')
       .max(365, 'The warning window can be at most 365 days.'),
+    categories: z
+      .array(z.string().trim().min(1).max(80, 'Keep each category under 80 characters.'))
+      .optional(),
   })
   .refine((d) => d.currencies.includes(d.defaultCurrency), {
     message: 'The default currency must be in the currency list.',

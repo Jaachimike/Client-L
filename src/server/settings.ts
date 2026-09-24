@@ -8,11 +8,14 @@ import type { Workbook } from './store';
 import { SETTINGS_TAB } from './tabs';
 import { AppError } from '../shared/result';
 
+export const DEFAULT_CATEGORIES = ['Client payment', 'UI design', 'Development', 'Subscriptions'];
+
 export const SETTING_KEYS = {
   allowedEmails: 'Allowed emails',
   taskStatuses: 'Task statuses',
   defaultCurrency: 'Default currency',
   currencies: 'Currencies',
+  categories: 'Categories',
   expiryWarningDays: 'Expiry warning days',
   appName: 'App name',
 } as const;
@@ -22,6 +25,7 @@ export const DEFAULT_SETTINGS: Record<string, string> = {
   [SETTING_KEYS.taskStatuses]: JSON.stringify(DEFAULT_STATUSES),
   [SETTING_KEYS.defaultCurrency]: 'USD',
   [SETTING_KEYS.currencies]: '',
+  [SETTING_KEYS.categories]: DEFAULT_CATEGORIES.join(', '),
   [SETTING_KEYS.expiryWarningDays]: '30',
   [SETTING_KEYS.appName]: 'Client Task Tracker',
 };
@@ -104,6 +108,15 @@ export class SettingsStore {
       .map((code) => code.trim().toUpperCase())
       .filter(Boolean);
     return [...new Set([this.defaultCurrency(), ...listed])];
+  }
+
+  /** Suggested categories; entries may still use any category. */
+  categories(): string[] {
+    const listed = this.get(SETTING_KEYS.categories)
+      .split(',')
+      .map((c) => c.trim())
+      .filter(Boolean);
+    return [...new Set(listed)];
   }
 
   warningDays(): number {

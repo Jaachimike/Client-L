@@ -59,6 +59,7 @@ function paymentFor(ctx: RequestContext, sub: Subscription): Transaction {
     clientId: sub.clientId,
     description: `${label} renewal`,
     reference: `Renewal due ${sub.nextRenewal}`,
+    voided: false,
     created: ctx.deps.now(),
   };
 }

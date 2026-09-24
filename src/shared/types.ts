@@ -39,6 +39,7 @@ export interface Bootstrap {
   defaultCurrency: string;
   currencies: string[];
   warningDays: number;
+  categories: string[];
 }
 
 export type DueFilter = 'any' | 'overdue' | 'week' | 'none';
@@ -104,5 +105,6 @@ export interface Transaction {
   clientId: string;
   description: string;
   reference: string;
+  voided: boolean;
   created: string;
 }

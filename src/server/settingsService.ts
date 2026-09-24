@@ -18,6 +18,7 @@ function getBootstrap(ctx: RequestContext): Bootstrap {
     defaultCurrency: ctx.settings.defaultCurrency(),
     currencies: ctx.settings.currencies(),
     warningDays: ctx.settings.warningDays(),
+    categories: ctx.settings.categories(),
   };
 }
 
@@ -28,7 +29,15 @@ function saveDefaults(ctx: RequestContext, [input]: unknown[]): Defaults {
     ctx.settings.set(SETTING_KEYS.defaultCurrency, data.defaultCurrency);
     ctx.settings.set(SETTING_KEYS.currencies, currencies.join(', '));
     ctx.settings.set(SETTING_KEYS.expiryWarningDays, String(data.warningDays));
-    return { defaultCurrency: data.defaultCurrency, currencies, warningDays: data.warningDays };
+    if (data.categories) {
+      ctx.settings.set(SETTING_KEYS.categories, [...new Set(data.categories)].join(', '));
+    }
+    return {
+      defaultCurrency: data.defaultCurrency,
+      currencies,
+      warningDays: data.warningDays,
+      categories: ctx.settings.categories(),
+    };
   });
 }
 
