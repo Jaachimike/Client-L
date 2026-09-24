@@ -2,6 +2,8 @@ import {
   CalendarClock,
   Ellipsis,
   FileText,
+  House,
+  LayoutDashboard,
   ListChecks,
   RefreshCw,
   Settings,
@@ -22,6 +24,7 @@ interface NavItem {
 }
 
 const MAIN_NAV: NavItem[] = [
+  { path: '/dashboard', label: 'Dashboard', icon: LayoutDashboard },
   { path: '/tasks', label: 'Tasks', icon: ListChecks },
   { path: '/clients', label: 'Clients', icon: Users },
   { path: '/contracts', label: 'Contracts', icon: FileText },
@@ -32,6 +35,7 @@ const SETTINGS_NAV: NavItem = { path: '/settings', label: 'Settings', icon: Sett
 
 /** Phones have room for fewer tabs, so contracts and subscriptions share one Renewals tab. */
 const PHONE_NAV: NavItem[] = [
+  { path: '/dashboard', label: 'Home', icon: House },
   { path: '/tasks', label: 'Tasks', icon: ListChecks },
   { path: '/clients', label: 'Clients', icon: Users },
   { path: '/contracts', label: 'Renewals', icon: CalendarClock, alsoActive: ['/subscriptions'] },

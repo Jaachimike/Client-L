@@ -1,15 +1,23 @@
+import { dayWindows, isDayWindow } from '../../../shared/contracts';
 import { PAID_BY_OPTIONS, type SubscriptionWindow } from '../../../shared/subscriptions';
 import type { PaidBy } from '../../../shared/types';
 import type { Route } from '../../lib/router';
 
-export const WINDOWS: { value: SubscriptionWindow; label: string }[] = [
-  { value: 'all', label: 'All' },
-  { value: '7', label: '7 days' },
-  { value: '30', label: '30 days' },
-  { value: '90', label: '90 days' },
-  { value: 'overdue', label: 'Overdue' },
-  { value: 'cancelled', label: 'Cancelled' },
-];
+export function subscriptionWindows(
+  warningDays: number,
+): { value: SubscriptionWindow; label: string }[] {
+  return [
+    { value: 'all', label: 'All' },
+    ...dayWindows([7, 30, 90], warningDays).map((d) => ({ value: d, label: `${d} days` })),
+    { value: 'overdue', label: 'Overdue' },
+    { value: 'cancelled', label: 'Cancelled' },
+  ];
+}
+
+function windowFrom(value: string | null): SubscriptionWindow {
+  if (value === 'overdue' || value === 'cancelled' || isDayWindow(value)) return value;
+  return 'all';
+}
 
 export type Params = {
   window: SubscriptionWindow;
@@ -21,7 +29,7 @@ export type Params = {
 export function readParams(route: Route): Params {
   const paidBy = PAID_BY_OPTIONS.find((o) => o.value === route.params.get('paidBy'))?.value ?? '';
   return {
-    window: WINDOWS.find((w) => w.value === route.params.get('window'))?.value ?? 'all',
+    window: windowFrom(route.params.get('window')),
     client: route.params.get('client') ?? '',
     provider: route.params.get('provider') ?? '',
     paidBy,

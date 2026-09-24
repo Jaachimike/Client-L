@@ -1,5 +1,5 @@
 import { addMonths, daysBetween } from './dates';
-import type { RenewalContext } from './contracts';
+import type { DayWindow, RenewalContext } from './contracts';
 import type { PaidBy, Subscription, SubscriptionState } from './types';
 
 export const PAID_BY_OPTIONS: { value: PaidBy; label: string }[] = [
@@ -15,7 +15,7 @@ export function subscriptionState(sub: Subscription, ctx: RenewalContext): Subsc
   return days <= ctx.warningDays ? 'Renewing soon' : 'Active';
 }
 
-export type SubscriptionWindow = 'all' | '7' | '30' | '90' | 'overdue' | 'cancelled';
+export type SubscriptionWindow = 'all' | 'overdue' | 'cancelled' | DayWindow;
 
 export interface SubscriptionFilters {
   window?: SubscriptionWindow;

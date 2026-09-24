@@ -23,7 +23,7 @@ import { useClients } from '../../lib/queries';
 import { useMarkCharged, useSubscriptions } from '../../lib/renewalQueries';
 import { navigate, type Route } from '../../lib/router';
 import { SubscriptionList } from './SubscriptionList';
-import { readParams, WINDOWS, type Params } from './subscriptionFilters';
+import { readParams, subscriptionWindows, type Params } from './subscriptionFilters';
 import { SubscriptionPanel, type SubscriptionPanelState } from './SubscriptionPanel';
 
 export function SubscriptionsPage({ bootstrap, route }: { bootstrap: Bootstrap; route: Route }) {
@@ -106,7 +106,7 @@ export function SubscriptionsPage({ bootstrap, route }: { bootstrap: Bootstrap; 
       <>
         <div className="mb-4 flex flex-col gap-3">
           <div role="group" aria-label="Renewing within" className="flex flex-wrap gap-2">
-            {WINDOWS.map((w) => (
+            {subscriptionWindows(bootstrap.warningDays).map((w) => (
               <FilterChip
                 key={w.value}
                 label={w.label}
