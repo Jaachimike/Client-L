@@ -6,6 +6,7 @@ import { diffStatuses } from '../shared/statuses';
 import type { Bootstrap, Status } from '../shared/types';
 import { parseInput, type RequestContext } from './context';
 import { cellText } from './records';
+import { hasSampleData } from './sampleService';
 import { SETTING_KEYS } from './settings';
 
 function getBootstrap(ctx: RequestContext): Bootstrap {
@@ -19,6 +20,7 @@ function getBootstrap(ctx: RequestContext): Bootstrap {
     currencies: ctx.settings.currencies(),
     warningDays: ctx.settings.warningDays(),
     categories: ctx.settings.categories(),
+    hasSampleData: hasSampleData(ctx),
   };
 }
 

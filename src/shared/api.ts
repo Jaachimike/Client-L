@@ -18,6 +18,14 @@ export type Defaults = Pick<
   'defaultCurrency' | 'currencies' | 'warningDays' | 'categories'
 >;
 
+export interface SampleSummary {
+  clients: number;
+  tasks: number;
+  contracts: number;
+  subscriptions: number;
+  transactions: number;
+}
+
 export interface ImportResult {
   imported: number;
   duplicates: number;
@@ -54,6 +62,8 @@ export interface ServerApi {
   saveTransaction(input: TransactionInput): ApiResult<Transaction>;
   setTransactionVoided(id: string, voided: boolean): ApiResult<Transaction>;
   importTransactions(rows: ImportRowInput[]): ApiResult<ImportResult>;
+  addSampleData(): ApiResult<SampleSummary>;
+  clearSampleData(): ApiResult<SampleSummary>;
 }
 
 export type ServerFunctionName = keyof ServerApi;
@@ -81,6 +91,8 @@ export const SERVER_FUNCTIONS = [
   'saveTransaction',
   'setTransactionVoided',
   'importTransactions',
+  'addSampleData',
+  'clearSampleData',
 ] as const satisfies readonly ServerFunctionName[];
 
 /** Server side receives untrusted input, so every argument is `unknown` until validated. */
