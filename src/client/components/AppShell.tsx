@@ -126,7 +126,7 @@ export function AppShell({ appName, email, activePath, children }: AppShellProps
       </nav>
       <main
         id="main"
-        className="px-4 pt-6 pb-28 sm:pl-[calc(72px+40px)] sm:pr-10 sm:pt-8 sm:pb-8 lg:pl-[calc(232px+40px)]"
+        className="px-4 pt-6 pb-40 sm:pl-[calc(72px+40px)] sm:pr-10 sm:pt-8 sm:pb-8 lg:pl-[calc(232px+40px)]"
       >
         {children}
       </main>

@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { monthLabel, type MonthBar } from '../../../shared/cashflow';
 import { Button } from '../../components/ui/button';
 import { cn } from '../../lib/cn';
@@ -12,20 +12,22 @@ interface CashFlowChartProps {
   onSelectMonth: (month: string) => void;
 }
 
-const WIDTH = 600;
+const DEFAULT_WIDTH = 600;
+const MIN_WIDTH = 280;
 const HEIGHT = 220;
 const PLOT_TOP = 16;
 const PLOT_BOTTOM = 186;
 const PLOT_LEFT = 56;
-const BAR = 22;
+/** Bars never grow past 24px, however wide the chart is. */
+const MAX_BAR = 22;
 const GAP = 2;
 const RADIUS = 4;
 
 /** A bar with a 4px rounded top and a square base on the baseline. */
-function barPath(x: number, top: number, bottom: number): string {
-  const r = Math.min(RADIUS, (bottom - top) / 2, BAR / 2);
+function barPath(x: number, top: number, bottom: number, bar: number): string {
+  const r = Math.min(RADIUS, (bottom - top) / 2, bar / 2);
   if (bottom - top < 0.5) return '';
-  return `M${x},${bottom}V${top + r}Q${x},${top} ${x + r},${top}H${x + BAR - r}Q${x + BAR},${top} ${x + BAR},${top + r}V${bottom}Z`;
+  return `M${x},${bottom}V${top + r}Q${x},${top} ${x + r},${top}H${x + bar - r}Q${x + bar},${top} ${x + bar},${top + r}V${bottom}Z`;
 }
 
 export function CashFlowChart({
@@ -38,7 +40,19 @@ export function CashFlowChart({
   const [asTable, setAsTable] = useState(false);
   const max = Math.max(1, ...series.flatMap((b) => [b.inflow, b.outflow]));
   const y = (value: number) => PLOT_BOTTOM - (value / max) * (PLOT_BOTTOM - PLOT_TOP);
-  const slot = (WIDTH - PLOT_LEFT) / series.length;
+  const [width, setWidth] = useState(DEFAULT_WIDTH);
+  const plotRef = useRef<HTMLDivElement>(null);
+  useEffect(() => {
+    const el = plotRef.current;
+    if (!el) return;
+    const observer = new ResizeObserver(([entry]) => {
+      if (entry) setWidth(Math.max(MIN_WIDTH, Math.round(entry.contentRect.width)));
+    });
+    observer.observe(el);
+    return () => observer.disconnect();
+  }, [asTable]);
+  const slot = (width - PLOT_LEFT) / series.length;
+  const bar = Math.min(MAX_BAR, (slot - 12) / 2);
   const ticks = [0, max / 2, max];
   const active = series.find((b) => b.month === (hovered ?? selectedMonth));
 
@@ -66,10 +80,12 @@ export function CashFlowChart({
       {asTable ? (
         <ChartTable series={series} currency={currency} selectedMonth={selectedMonth} />
       ) : (
-        <div className="relative">
+        <div className="relative" ref={plotRef}>
           <svg
-            viewBox={`0 0 ${WIDTH} ${HEIGHT}`}
-            className="h-auto w-full"
+            viewBox={`0 0 ${width} ${HEIGHT}`}
+            width={width}
+            height={HEIGHT}
+            className="block max-w-full"
             role="group"
             aria-labelledby="chart-heading"
           >
@@ -77,7 +93,7 @@ export function CashFlowChart({
               <g key={t}>
                 <line
                   x1={PLOT_LEFT}
-                  x2={WIDTH}
+                  x2={width}
                   y1={y(t)}
                   y2={y(t)}
                   className="stroke-border"
@@ -94,7 +110,7 @@ export function CashFlowChart({
               </g>
             ))}
             {series.map((b, i) => {
-              const x = PLOT_LEFT + i * slot + (slot - (BAR * 2 + GAP)) / 2;
+              const x = PLOT_LEFT + i * slot + (slot - (bar * 2 + GAP)) / 2;
               const selected = b.month === selectedMonth;
               return (
                 <g
@@ -129,9 +145,9 @@ export function CashFlowChart({
                           : 'fill-transparent'
                     }
                   />
-                  <path d={barPath(x, y(b.inflow), PLOT_BOTTOM)} className="fill-accent" />
+                  <path d={barPath(x, y(b.inflow), PLOT_BOTTOM, bar)} className="fill-accent" />
                   <path
-                    d={barPath(x + BAR + GAP, y(b.outflow), PLOT_BOTTOM)}
+                    d={barPath(x + bar + GAP, y(b.outflow), PLOT_BOTTOM, bar)}
                     className="fill-outflow"
                   />
                   <text
@@ -150,7 +166,7 @@ export function CashFlowChart({
             })}
             <line
               x1={PLOT_LEFT}
-              x2={WIDTH}
+              x2={width}
               y1={PLOT_BOTTOM}
               y2={PLOT_BOTTOM}
               className="stroke-border-strong"

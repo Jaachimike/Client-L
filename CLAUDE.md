@@ -59,7 +59,8 @@ TypeScript and bundled with esbuild.
 ### Security and privacy
 
 - Check the allowlist on every server call, not only when the page loads.
-- Least-privilege OAuth scopes (`spreadsheets.currentonly` plus the user email); no secrets, IDs or
+- Least-privilege OAuth scopes (`spreadsheets.currentonly`, the user email, and
+  `script.container.ui` for the sheet menu only); no secrets, IDs or
   emails in code. Per-copy values live in the `Settings` tab or Script Properties.
 - Render user text safely (React escaping, no `dangerouslySetInnerHTML`); allow only `http` and
   `https` links.
@@ -130,3 +131,12 @@ TypeScript and bundled with esbuild.
   are matched by name (see `src/shared/importColumns.ts`); dates are read day first.
 - Contract payments are logged by hand; the entry form can pre-fill from a contract.
 - Categories are suggestions kept in the `Categories` setting; entries may use any category.
+- The sheet menu (`onOpen`) runs setup and adds or clears sample data. Menu actions skip the web
+  app allowlist because only people who can edit the sheet can run them.
+- Sample records have IDs starting `sample-`. Clearing deletes only those rows (one batch per tab)
+  and keeps sample clients that the user's own records point at. This is the one place rows are
+  deleted.
+- Dashboard counts use exactly the tab filters: overdue, due in 7 days, and the Settings warning
+  window for contracts and subscriptions. The warning window always appears as a filter chip.
+- Releases follow `docs/RELEASING.md`; the template sheet is published without running setup so
+  it holds no data or emails.
