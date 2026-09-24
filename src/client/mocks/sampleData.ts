@@ -29,6 +29,7 @@ export function seedSampleData(api: ServerHandlers, today: string): void {
   );
   api.setClientArchived(archived, true);
   seedRenewals(api, today, { northwind, harbour, lumen });
+  seedCash(api, today, { northwind, harbour, lumen });
 
   const tasks = [
     {
@@ -147,4 +148,88 @@ function seedRenewals(
     },
   ];
   for (const sub of subscriptions) api.saveSubscription(sub);
+}
+
+function seedCash(
+  api: ServerHandlers,
+  today: string,
+  ids: Record<'northwind' | 'harbour' | 'lumen', string>,
+): void {
+  const entries = [
+    {
+      offset: -150,
+      type: 'Inflow',
+      amount: 800000,
+      clientId: ids.lumen,
+      category: 'Client payment',
+      description: 'Portfolio site deposit',
+    },
+    {
+      offset: -120,
+      type: 'Outflow',
+      amount: 150000,
+      clientId: ids.lumen,
+      category: 'UI design',
+      description: 'UI design for portfolio',
+    },
+    {
+      offset: -95,
+      type: 'Inflow',
+      amount: 540000,
+      clientId: ids.harbour,
+      category: 'Client payment',
+      description: '40% of booking site',
+    },
+    {
+      offset: -60,
+      type: 'Outflow',
+      amount: 225000,
+      clientId: ids.harbour,
+      category: 'Development',
+      description: 'Booking widget development',
+    },
+    {
+      offset: -30,
+      type: 'Inflow',
+      amount: 810000,
+      clientId: ids.harbour,
+      category: 'Client payment',
+      description: '60% of booking site',
+    },
+    {
+      offset: -3,
+      type: 'Inflow',
+      amount: 1000000,
+      clientId: ids.northwind,
+      category: 'Client payment',
+      description: 'Online ordering deposit',
+    },
+    {
+      offset: -1,
+      type: 'Outflow',
+      amount: 200000,
+      clientId: ids.northwind,
+      category: 'UI design',
+      description: 'Order form designs',
+    },
+  ];
+  for (const { offset, ...entry } of entries)
+    api.saveTransaction({ ...entry, date: addDays(today, offset), currency: 'NGN' });
+  api.saveTransaction({
+    type: 'Outflow',
+    amount: 12,
+    currency: 'USD',
+    clientId: ids.harbour,
+    category: 'Subscriptions',
+    description: 'Hosting renewal',
+    date: addDays(today, -2),
+  });
+  api.saveTransaction({
+    type: 'Inflow',
+    amount: 300000,
+    currency: 'NGN',
+    clientId: ids.lumen,
+    category: 'Client payment',
+    description: 'Older payment, date unknown',
+  });
 }

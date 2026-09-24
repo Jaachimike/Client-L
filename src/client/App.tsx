@@ -2,7 +2,9 @@ import type { ReactNode } from 'react';
 import { AppShell } from './components/AppShell';
 import { ErrorState, LoadingState } from './components/ui/feedback';
 import { ClientsPage } from './features/clients/ClientsPage';
+import { CashFlowPage } from './features/cashflow/CashFlowPage';
 import { ContractsPage } from './features/contracts/ContractsPage';
+import { MorePage } from './features/more/MorePage';
 import { SubscriptionsPage } from './features/subscriptions/SubscriptionsPage';
 import { SettingsPage } from './features/settings/SettingsPage';
 import { TasksPage } from './features/tasks/TasksPage';
@@ -10,7 +12,7 @@ import { errorMessage } from './lib/api';
 import { useBootstrap } from './lib/queries';
 import { useRoute } from './lib/router';
 
-const SECTIONS = ['tasks', 'clients', 'contracts', 'subscriptions', 'settings'];
+const SECTIONS = ['tasks', 'clients', 'contracts', 'subscriptions', 'cashflow', 'more', 'settings'];
 
 export function App() {
   const route = useRoute();
@@ -40,6 +42,8 @@ export function App() {
   if (section === 'clients') page = <ClientsPage bootstrap={data} route={route} />;
   else if (section === 'contracts') page = <ContractsPage bootstrap={data} route={route} />;
   else if (section === 'subscriptions') page = <SubscriptionsPage bootstrap={data} route={route} />;
+  else if (section === 'cashflow') page = <CashFlowPage bootstrap={data} route={route} />;
+  else if (section === 'more') page = <MorePage />;
   else if (section === 'settings') page = <SettingsPage bootstrap={data} />;
   else page = <TasksPage key={route.path} bootstrap={data} route={route} />;
 

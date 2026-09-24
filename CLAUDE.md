@@ -121,3 +121,12 @@ TypeScript and bundled with esbuild.
 - Currencies come from the `Currencies` setting, with the default currency always first.
 - The `Transactions` tab stores Type (Inflow/Outflow) plus a positive Amount. Mark renewed can log
   one Outflow in category `Subscriptions`.
+- Cash flow totals and the 6-month chart show one currency at a time (currency switch, default
+  first) and never add currencies together. Undated entries count in All time and No date views,
+  never in a month. Voided entries (`Voided` column) stay in the sheet but are left out of totals.
+- CSV import runs in the browser first (preview of rows, skipped rows with reasons, clients to be
+  created), then the server validates every row again, skips duplicates (same date, type, amount
+  and description), creates missing clients by name and writes everything in one batch. Headers
+  are matched by name (see `src/shared/importColumns.ts`); dates are read day first.
+- Contract payments are logged by hand; the entry form can pre-fill from a contract.
+- Categories are suggestions kept in the `Categories` setting; entries may use any category.

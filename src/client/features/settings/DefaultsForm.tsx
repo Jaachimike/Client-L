@@ -7,6 +7,8 @@ import { errorMessage, fieldErrors } from '../../lib/api';
 import { useSaveDefaults } from '../../lib/renewalQueries';
 
 const CURRENCY_HINT = 'Three-letter codes separated by commas, for example NGN, USD, GBP.';
+const CATEGORY_HINT =
+  'Suggested when adding entries, separated by commas. Entries can still use others.';
 const WINDOW_HINT =
   'Contracts ending and subscriptions renewing within this many days are flagged.';
 
@@ -26,6 +28,7 @@ export function DefaultsForm({ bootstrap }: { bootstrap: Bootstrap }) {
   const [codes, setCodes] = useState(bootstrap.currencies.join(', '));
   const [defaultCurrency, setDefaultCurrency] = useState(bootstrap.defaultCurrency);
   const [days, setDays] = useState(String(bootstrap.warningDays));
+  const [categories, setCategories] = useState(bootstrap.categories.join(', '));
   const [saved, setSaved] = useState(false);
   const list = parseCodes(codes);
   const choices = list.includes(defaultCurrency) ? list : [defaultCurrency, ...list];
@@ -35,7 +38,15 @@ export function DefaultsForm({ bootstrap }: { bootstrap: Bootstrap }) {
     event.preventDefault();
     setSaved(false);
     save.mutate(
-      { defaultCurrency, currencies: list, warningDays: Number(days) },
+      {
+        defaultCurrency,
+        currencies: list,
+        warningDays: Number(days),
+        categories: categories
+          .split(',')
+          .map((c) => c.trim())
+          .filter(Boolean),
+      },
       { onSuccess: () => setSaved(true) },
     );
   };
@@ -76,6 +87,14 @@ export function DefaultsForm({ bootstrap }: { bootstrap: Bootstrap }) {
               <option key={code}>{code}</option>
             ))}
           </Select>
+        </Field>
+        <Field id="defaults-categories" label="Cash flow categories" hint={CATEGORY_HINT}>
+          <Input
+            id="defaults-categories"
+            value={categories}
+            onChange={(e) => setCategories(e.target.value)}
+            aria-describedby={describedBy('defaults-categories', undefined, CATEGORY_HINT)}
+          />
         </Field>
         <Field
           id="defaults-days"

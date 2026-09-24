@@ -4,8 +4,8 @@ A lightweight web app for keeping track of clients and the tasks they send you. 
 stored in your own Google Sheet and runs under your own Google account, so there is no server to
 host and nothing to pay for.
 
-> Status: early development. Clients, tasks, contracts, subscriptions and settings work today.
-> Cash flow and the dashboard are planned.
+> Status: early development. Clients, tasks, contracts, subscriptions, cash flow and settings work
+> today. The dashboard is planned.
 
 ## What it does
 
@@ -20,6 +20,8 @@ host and nothing to pay for.
   in the next 30, 60 or 90 days and renew in one step; the old contract stays in the history.
 - **Subscriptions**: domains, hosting, email and licences you manage for clients, with renewal
   dates, who pays, and a reminder to charge the client when you rebill.
+- **Cash flow**: money in and out with monthly totals per currency and a 6-month chart. Import
+  your existing sheet from a CSV file; you see exactly what will be added before anything is saved.
 - **Private by default**: only the Google accounts you allow can open the app.
 
 ## Privacy
@@ -79,6 +81,15 @@ Add their email under **Settings > Access** (or in the `Allowed emails` row of t
 It takes effect on their next page load; no redeploy is needed. Google does not always share the
 email of personal Gmail accounts with an app run by someone else, so people outside your own
 Google Workspace domain may still be denied.
+
+## Importing an existing sheet
+
+In your old sheet choose **File > Download > Comma-separated values (.csv)**. In the app open
+**Cash flow > Import CSV** and choose the file. The first row must hold column headers. The app
+recognises Description, Inflow, Outflow (or Amount and Type), Project Name or Client, Date (day
+first, such as 03/03/2025) and Comments. You will see how many entries will be added, which rows
+are skipped and why (blank rows and TOTAL rows are always skipped), and which clients will be
+created. Importing the same file twice does not add anything twice.
 
 ## Using the sheet directly
 

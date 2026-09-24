@@ -26,3 +26,9 @@ All notable changes to this project are documented here. The format follows
   Charge client reminder until marked charged. Cancelled items stay in the history.
 - Client pages list the client's contracts and subscriptions.
 - Settings: choose your currencies, default currency and the warning window.
+- Cash flow: log money in and out with date, amount, currency, category, client and reference.
+  Monthly inflow, outflow and net per currency, a 6-month chart (also shown as a table), and
+  filters by month, all time, no date, type, client and category. Entries can be edited or voided.
+- Import CSV: bring in an existing Inflow/Outflow sheet with a preview first. It lists skipped rows
+  and why, creates missing clients, suggests categories, and skips rows already imported.
+- Phones get a More tab for Cash flow and Settings.
