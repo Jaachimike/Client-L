@@ -103,6 +103,7 @@ export const TRANSACTIONS_TAB: TabDefinition = {
     text('Client ID'),
     text('Description'),
     text('Reference'),
+    flag('Voided'),
     datetime('Created'),
   ],
 };

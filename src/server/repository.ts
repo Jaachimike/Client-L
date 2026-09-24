@@ -41,10 +41,16 @@ export class Repository {
   }
 
   insert(record: Row): void {
+    this.insertMany([record]);
+  }
+
+  /** Appends many records with a single write. */
+  insertMany(records: Row[]): void {
+    if (records.length === 0) return;
     const snapshot = this.load();
-    const row = this.toCells(snapshot.headers, record, []);
-    this.store.appendRows([row]);
-    snapshot.rows.push(row);
+    const rows = records.map((record) => this.toCells(snapshot.headers, record, []));
+    this.store.appendRows(rows);
+    snapshot.rows.push(...rows);
   }
 
   update(id: string, patch: Row): Row {

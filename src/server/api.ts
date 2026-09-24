@@ -3,6 +3,7 @@ import { AppError, fail, ok, type ApiResult } from '../shared/result';
 import { clientHandlers } from './clientsService';
 import { contractHandlers } from './contractsService';
 import { subscriptionHandlers } from './subscriptionsService';
+import { transactionHandlers } from './transactionsService';
 import { RequestContext } from './context';
 import type { ServerDeps } from './deps';
 import { settingsHandlers } from './settingsService';
@@ -37,6 +38,7 @@ export function createApi(deps: ServerDeps): ServerHandlers {
     ...settingsHandlers,
     ...contractHandlers,
     ...subscriptionHandlers,
+    ...transactionHandlers,
   };
   return {
     getBootstrap: (...args) => runHandler(deps, handlers.getBootstrap, args),
@@ -56,6 +58,10 @@ export function createApi(deps: ServerDeps): ServerHandlers {
     saveSubscription: (...args) => runHandler(deps, handlers.saveSubscription, args),
     markSubscriptionRenewed: (...args) => runHandler(deps, handlers.markSubscriptionRenewed, args),
     markSubscriptionCharged: (...args) => runHandler(deps, handlers.markSubscriptionCharged, args),
+    listTransactions: (...args) => runHandler(deps, handlers.listTransactions, args),
+    saveTransaction: (...args) => runHandler(deps, handlers.saveTransaction, args),
+    setTransactionVoided: (...args) => runHandler(deps, handlers.setTransactionVoided, args),
+    importTransactions: (...args) => runHandler(deps, handlers.importTransactions, args),
     setSubscriptionCancelled: (...args) =>
       runHandler(deps, handlers.setSubscriptionCancelled, args),
   };

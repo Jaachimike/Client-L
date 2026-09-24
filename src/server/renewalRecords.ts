@@ -113,6 +113,24 @@ export function transactionToRow(t: Transaction): Row {
     'Client ID': t.clientId,
     Description: t.description,
     Reference: t.reference,
+    Voided: t.voided,
     Created: t.created,
+  };
+}
+
+export function rowToTransaction(row: Row): Transaction {
+  const type = cellText(row['Type']).toLowerCase() === 'inflow' ? 'Inflow' : 'Outflow';
+  return {
+    id: cellText(row['ID']),
+    date: toIsoDate(cellText(row['Date'])),
+    type,
+    amount: cellNumber(row['Amount']),
+    currency: cellText(row['Currency']).toUpperCase(),
+    category: cellText(row['Category']),
+    clientId: cellText(row['Client ID']),
+    description: cellText(row['Description']),
+    reference: cellText(row['Reference']),
+    voided: cellFlag(row['Voided']),
+    created: cellText(row['Created']),
   };
 }

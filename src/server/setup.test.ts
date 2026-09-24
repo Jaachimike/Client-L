@@ -19,6 +19,7 @@ describe('setup()', () => {
       'Task statuses',
       'Default currency',
       'Currencies',
+      'Categories',
       'Expiry warning days',
       'App name',
     ]);
