@@ -18,6 +18,10 @@ export class MemoryTable implements TableStore {
     this.rows.push(...rows.map((row) => [...row]));
   }
 
+  replaceBody(rows: Cell[][]): void {
+    this.rows = [this.rows[0] ?? [], ...rows.map((row) => [...row])];
+  }
+
   formatColumn(): void {
     // Formatting only matters in a real sheet.
   }

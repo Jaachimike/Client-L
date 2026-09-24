@@ -69,6 +69,20 @@ export class Repository {
     return this.toRecord(snapshot.headers, row);
   }
 
+  /** Removes every matching row, rewriting the tab body in one batch. Returns how many went. */
+  removeWhere(matches: (row: Row) => boolean): number {
+    const snapshot = this.load();
+    const kept = snapshot.rows.filter(
+      (cells) => isBlankRow(cells) || !matches(this.toRecord(snapshot.headers, cells)),
+    );
+    const removed = snapshot.rows.length - kept.length;
+    if (removed > 0) {
+      this.store.replaceBody(kept);
+      snapshot.rows = kept;
+    }
+    return removed;
+  }
+
   /** Applies `change` to every matching row and writes the affected block in one call. */
   updateWhere(matches: (row: Row) => boolean, change: (row: Row) => Row): number {
     const snapshot = this.load();

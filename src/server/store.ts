@@ -8,6 +8,8 @@ export interface TableStore {
   /** Writes a block of rows starting at a 0-based row index, in one call. */
   writeRows(startIndex: number, rows: Cell[][]): void;
   appendRows(rows: Cell[][]): void;
+  /** Replaces every row below the header in one write, removing rows left over at the end. */
+  replaceBody(rows: Cell[][]): void;
   formatColumn(columnIndex: number, kind: ColumnKind): void;
 }
 

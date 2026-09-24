@@ -41,6 +41,18 @@ class SheetTable implements TableStore {
     this.writeRows(this.sheet.getLastRow(), rows);
   }
 
+  replaceBody(rows: Cell[][]): void {
+    const previous = Math.max(this.sheet.getLastRow() - 1, 0);
+    this.writeRows(1, rows);
+    if (previous <= rows.length) return;
+    if (rows.length === 0) {
+      // Sheets refuses to delete every row below a frozen header, so empty the cells instead.
+      this.sheet.getRange(2, 1, previous, this.sheet.getLastColumn()).clearContent();
+      return;
+    }
+    this.sheet.deleteRows(rows.length + 2, previous - rows.length);
+  }
+
   formatColumn(columnIndex: number, kind: ColumnKind): void {
     if (columnIndex < 0) return;
     this.sheet

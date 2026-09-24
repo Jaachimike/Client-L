@@ -6,6 +6,8 @@ import { SERVER_FUNCTIONS } from '../src/shared/api';
 const DIST = 'dist';
 const GLOBAL = '__app';
 
+const MENU_FUNCTIONS = ['onOpen', 'menuSetup', 'menuAddSampleData', 'menuClearSampleData'];
+
 /** Apps Script only calls top-level functions, so each export gets a plain global wrapper. */
 function globalWrappers(): string {
   const api = SERVER_FUNCTIONS.map(
@@ -15,6 +17,7 @@ function globalWrappers(): string {
   return [
     `function doGet(e) { return ${GLOBAL}.doGet(e); }`,
     `function setup() { return ${GLOBAL}.setup(); }`,
+    ...MENU_FUNCTIONS.map((name) => `function ${name}(e) { return ${GLOBAL}.${name}(e); }`),
     ...api,
   ].join('\n');
 }

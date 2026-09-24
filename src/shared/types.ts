@@ -40,6 +40,7 @@ export interface Bootstrap {
   currencies: string[];
   warningDays: number;
   categories: string[];
+  hasSampleData: boolean;
 }
 
 export type DueFilter = 'any' | 'overdue' | 'week' | 'none';
