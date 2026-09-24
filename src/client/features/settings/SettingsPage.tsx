@@ -7,6 +7,7 @@ import { errorMessage } from '../../lib/api';
 import { useTasks } from '../../lib/queries';
 import { AccessList } from './AccessList';
 import { DefaultsForm } from './DefaultsForm';
+import { SampleDataCard } from './SampleDataCard';
 import { StatusEditor } from './StatusEditor';
 
 export function SettingsPage({ bootstrap }: { bootstrap: Bootstrap }) {
@@ -30,6 +31,7 @@ export function SettingsPage({ bootstrap }: { bootstrap: Bootstrap }) {
         <div className="flex flex-col gap-5">
           <AccessList allowedEmails={bootstrap.allowedEmails} ownEmail={bootstrap.email} />
           <DefaultsForm bootstrap={bootstrap} />
+          <SampleDataCard hasSampleData={bootstrap.hasSampleData} />
         </div>
       </div>
     </>

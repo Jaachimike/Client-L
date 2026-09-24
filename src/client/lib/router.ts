@@ -6,7 +6,7 @@ export interface Route {
   params: URLSearchParams;
 }
 
-const DEFAULT_PATH = '/tasks';
+const DEFAULT_PATH = '/dashboard';
 
 function readHash(): string {
   return window.location.hash.replace(/^#/, '') || DEFAULT_PATH;

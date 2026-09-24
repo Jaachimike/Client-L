@@ -13,7 +13,18 @@ export function contractState(contract: Contract, ctx: RenewalContext): Contract
   return daysLeft <= ctx.warningDays ? 'Expiring soon' : 'Active';
 }
 
-export type ContractWindow = 'all' | '30' | '60' | '90' | 'expired';
+/** A number of days, counted from today with the boundary day included. */
+export type DayWindow = `${number}`;
+export type ContractWindow = 'all' | 'expired' | DayWindow;
+
+export function isDayWindow(value: string | null): value is DayWindow {
+  return value !== null && /^[1-9]\d{0,2}$/.test(value);
+}
+
+/** The standard windows plus the Settings warning window, so dashboard links always match a chip. */
+export function dayWindows(standard: number[], warningDays: number): DayWindow[] {
+  return [...new Set([...standard, warningDays])].sort((a, b) => a - b).map((d) => `${d}` as const);
+}
 
 export interface ContractFilters {
   window?: ContractWindow;

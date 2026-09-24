@@ -1,5 +1,11 @@
 import { useMemo, useState } from 'react';
-import { filterContracts, inContractWindow, type ContractWindow } from '../../../shared/contracts';
+import {
+  dayWindows,
+  filterContracts,
+  inContractWindow,
+  isDayWindow,
+  type ContractWindow,
+} from '../../../shared/contracts';
 import { formatDisplayDate } from '../../../shared/dates';
 import type { Bootstrap, Contract } from '../../../shared/types';
 import { PageHeader } from '../../components/PageHeader';
@@ -15,16 +21,17 @@ import { navigate, type Route } from '../../lib/router';
 import { ContractForm, type ContractFormMode } from './ContractForm';
 import { ContractList } from './ContractList';
 
-const WINDOWS: { value: ContractWindow; label: string }[] = [
-  { value: 'all', label: 'All' },
-  { value: '30', label: '30 days' },
-  { value: '60', label: '60 days' },
-  { value: '90', label: '90 days' },
-  { value: 'expired', label: 'Expired' },
-];
+function contractWindows(warningDays: number): { value: ContractWindow; label: string }[] {
+  return [
+    { value: 'all', label: 'All' },
+    ...dayWindows([30, 60, 90], warningDays).map((d) => ({ value: d, label: `${d} days` })),
+    { value: 'expired', label: 'Expired' },
+  ];
+}
 
 function windowFrom(value: string | null): ContractWindow {
-  return WINDOWS.find((w) => w.value === value)?.value ?? 'all';
+  if (value === 'expired' || isDayWindow(value)) return value;
+  return 'all';
 }
 
 const PANEL_TITLES = { new: 'New contract', edit: 'Edit contract', renew: 'Renew contract' };
@@ -93,7 +100,7 @@ export function ContractsPage({ bootstrap, route }: { bootstrap: Bootstrap; rout
       <>
         <div className="mb-4 flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
           <div role="group" aria-label="Ending within" className="flex flex-wrap gap-2">
-            {WINDOWS.map((w) => (
+            {contractWindows(bootstrap.warningDays).map((w) => (
               <FilterChip
                 key={w.value}
                 label={w.label}
