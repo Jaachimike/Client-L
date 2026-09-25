@@ -71,8 +71,8 @@ When you first run it, Google asks you to allow three things:
 You need Node.js 22 or later and a Google account.
 
 ```sh
-git clone <!-- REPOSITORY_URL --> client-task-tracker
-cd client-task-tracker
+git clone https://github.com/Jaachimike/solo-dev-tracker.git
+cd solo-dev-tracker
 npm ci
 npx clasp login
 npx clasp create --type sheets --title "Client Task Tracker" --rootDir dist
