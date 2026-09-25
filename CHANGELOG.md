@@ -35,7 +35,7 @@ All notable changes to this project are documented here. The format follows
 - Dashboard as the start page: overdue tasks, tasks due in the next 7 days, contracts ending and
   subscriptions renewing within the warning window (each opens the matching filter), a needs
   attention list, a coming up list and this month's cash flow. Phones get a Home tab.
-- A Client Task Tracker menu in the spreadsheet to set up the sheet and add or clear sample data.
+- A Client-L menu in the spreadsheet to set up the sheet and add or clear sample data.
 - Sample data: made-up records in every tab, removable in one click without touching your own.
 - README with screenshots, a no-code install from a template copy, permissions explained, a
   troubleshooting table and how to use your own web address; LICENSE (MIT), CONTRIBUTING.md and

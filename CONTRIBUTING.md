@@ -1,6 +1,6 @@
 # Contributing
 
-Thanks for helping improve Client Task Tracker. Bug reports, ideas and pull requests are all
+Thanks for helping improve Client-L. Bug reports, ideas and pull requests are all
 welcome.
 
 ## Before you start

@@ -1,7 +1,7 @@
 {
-  "name": "client-task-tracker",
+  "name": "client-l",
   "version": "1.0.0",
-  "description": "Track clients and their tasks in your own Google Sheet.",
+  "description": "Client-L: clients, tasks, contracts, subscriptions and cash flow in your own Google Sheet.",
   "scripts": {
     "dev": "vite",
     "build": "tsx scripts/build.ts",
