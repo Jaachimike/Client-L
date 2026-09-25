@@ -25,7 +25,9 @@ All notable changes to this project are documented here. The format follows
   one cycle (keeping the billing day) and can log the payment as an outflow. Rebilled items show a
   Charge client reminder until marked charged. Cancelled items stay in the history.
 - Client pages list the client's contracts and subscriptions.
-- Settings: choose your currencies, default currency and the warning window.
+- Settings: tick the currencies you use from a list of common ones, add any other 3-letter
+  currency code, and choose the default currency and the warning window. New copies start with USD,
+  EUR and GBP.
 - Cash flow: log money in and out with date, amount, currency, category, client and reference.
   Monthly inflow, outflow and net per currency, a 6-month chart (also shown as a table), and
   filters by month, all time, no date, type, client and category. Entries can be edited or voided.

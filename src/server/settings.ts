@@ -1,4 +1,5 @@
 import { z } from 'zod';
+import { STARTER_CURRENCIES } from '../shared/currencies';
 import { statusSchema } from '../shared/schemas';
 import { DEFAULT_STATUSES } from '../shared/statuses';
 import type { Status } from '../shared/types';
@@ -24,7 +25,7 @@ export const DEFAULT_SETTINGS: Record<string, string> = {
   [SETTING_KEYS.allowedEmails]: '',
   [SETTING_KEYS.taskStatuses]: JSON.stringify(DEFAULT_STATUSES),
   [SETTING_KEYS.defaultCurrency]: 'USD',
-  [SETTING_KEYS.currencies]: '',
+  [SETTING_KEYS.currencies]: STARTER_CURRENCIES.join(', '),
   [SETTING_KEYS.categories]: DEFAULT_CATEGORIES.join(', '),
   [SETTING_KEYS.expiryWarningDays]: '30',
   [SETTING_KEYS.appName]: 'Client-L',

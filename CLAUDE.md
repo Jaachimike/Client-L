@@ -119,7 +119,10 @@ TypeScript and bundled with esbuild.
 - Auto-renew subscriptions still show Overdue after their date until Mark renewed is used.
 - Subscriptions keep a `Billing day` so monthly renewals return to the original day
   (31 Jan → 28 Feb → 31 Mar), and a `Rebill due` date that shows "Charge client" until cleared.
-- Currencies come from the `Currencies` setting, with the default currency always first.
+- Currencies come from the `Currencies` setting, with the default currency always first. Settings
+  offers tick boxes for `COMMON_CURRENCIES` (`src/shared/currencies.ts`) plus any 3-letter code;
+  new copies start with `STARTER_CURRENCIES`. Existing records may keep a currency that is later
+  unticked.
 - The `Transactions` tab stores Type (Inflow/Outflow) plus a positive Amount. Mark renewed can log
   one Outflow in category `Subscriptions`.
 - Cash flow totals and the 6-month chart show one currency at a time (currency switch, default

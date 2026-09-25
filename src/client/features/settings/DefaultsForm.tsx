@@ -5,33 +5,21 @@ import { ErrorAlert, StatusBanner } from '../../components/ui/feedback';
 import { describedBy, Field, Input, Select } from '../../components/ui/form';
 import { errorMessage, fieldErrors } from '../../lib/api';
 import { useSaveDefaults } from '../../lib/renewalQueries';
+import { CurrencyPicker, currencyName } from './CurrencyPicker';
 
-const CURRENCY_HINT = 'Three-letter codes separated by commas, for example NGN, USD, GBP.';
 const CATEGORY_HINT =
   'Suggested when adding entries, separated by commas. Entries can still use others.';
 const WINDOW_HINT =
   'Contracts ending and subscriptions renewing within this many days are flagged.';
 
-function parseCodes(text: string): string[] {
-  return [
-    ...new Set(
-      text
-        .split(/[,;\s]+/)
-        .map((c) => c.trim().toUpperCase())
-        .filter(Boolean),
-    ),
-  ];
-}
-
 export function DefaultsForm({ bootstrap }: { bootstrap: Bootstrap }) {
   const save = useSaveDefaults();
-  const [codes, setCodes] = useState(bootstrap.currencies.join(', '));
+  const [currencies, setCurrencies] = useState(bootstrap.currencies);
   const [defaultCurrency, setDefaultCurrency] = useState(bootstrap.defaultCurrency);
   const [days, setDays] = useState(String(bootstrap.warningDays));
   const [categories, setCategories] = useState(bootstrap.categories.join(', '));
   const [saved, setSaved] = useState(false);
-  const list = parseCodes(codes);
-  const choices = list.includes(defaultCurrency) ? list : [defaultCurrency, ...list];
+  const list = currencies.includes(defaultCurrency) ? currencies : [defaultCurrency, ...currencies];
   const fields = fieldErrors(save.error);
 
   const submit = (event: FormEvent) => {
@@ -60,31 +48,24 @@ export function DefaultsForm({ bootstrap }: { bootstrap: Bootstrap }) {
         Warnings and defaults
       </h2>
       <form onSubmit={submit} noValidate className="flex flex-col gap-4">
-        <Field
-          id="defaults-currencies"
-          label="Currencies"
-          hint={CURRENCY_HINT}
-          error={fields['currencies'] ?? fields['currencies.0']}
-        >
-          <Input
-            id="defaults-currencies"
-            value={codes}
-            onChange={(e) => setCodes(e.target.value)}
-            aria-describedby={describedBy(
-              'defaults-currencies',
-              fields['currencies'],
-              CURRENCY_HINT,
-            )}
-          />
-        </Field>
+        <CurrencyPicker
+          selected={list}
+          defaultCurrency={defaultCurrency}
+          onChange={setCurrencies}
+        />
+        {(fields['currencies'] ?? fields['currencies.0']) && (
+          <ErrorAlert>{fields['currencies'] ?? fields['currencies.0']}</ErrorAlert>
+        )}
         <Field id="defaults-currency" label="Default currency" error={fields['defaultCurrency']}>
           <Select
             id="defaults-currency"
             value={defaultCurrency}
             onChange={(e) => setDefaultCurrency(e.target.value)}
           >
-            {choices.map((code) => (
-              <option key={code}>{code}</option>
+            {list.map((code) => (
+              <option key={code} value={code}>
+                {currencyName(code)}
+              </option>
             ))}
           </Select>
         </Field>
