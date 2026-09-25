@@ -48,7 +48,9 @@ describe('Settings screen', () => {
   it('adds an email to the access list', async () => {
     const { user, server } = renderApp({ hash: '/settings' });
     await user.type(await screen.findByLabelText('Add an email'), 'Partner@Example.com');
-    await user.click(screen.getByRole('button', { name: 'Add' }));
+    await user.click(
+      within(screen.getByRole('region', { name: 'Access' })).getByRole('button', { name: 'Add' }),
+    );
     await waitFor(() =>
       expect(screen.getByRole('list', { name: 'Allowed emails' })).toHaveTextContent(
         'partner@example.com',

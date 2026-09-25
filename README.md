@@ -104,6 +104,21 @@ It takes effect on their next page load; no redeploy is needed. Google does not 
 email of personal Gmail accounts with an app run by someone else, so people outside your own
 Google Workspace domain may still be denied.
 
+## Currencies
+
+Client-L works with several currencies side by side. Under **Settings > Warnings and defaults**:
+
+- **Tick the currencies you use** from the list of common ones (naira, US dollar, euro, pound,
+  cedi, shilling, rand, CFA franc and more). Only ticked currencies appear in the contract,
+  subscription and cash flow forms. A new copy starts with USD, EUR and GBP ticked.
+- **Add any other currency** that is not in the list by typing its 3-letter ISO code (for example
+  `SEK` or `BRL`) under **Add another currency**. You can add as many as you need.
+- **Pick your default currency**, which new entries start with and which the dashboard totals use.
+
+Totals are always kept separate per currency and never added together; the Cash flow screen has a
+currency switch. Unticking a currency hides it from new entries but keeps it on existing ones.
+You can also edit the `Currencies` row in the Settings tab directly, as codes separated by commas.
+
 ## Importing an existing sheet
 
 In your old sheet choose **File > Download > Comma-separated values (.csv)**. In the app open
