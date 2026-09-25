@@ -5,6 +5,9 @@ subscription you manage for them, and payment in or out, in one place. Everythin
 your own Google Sheet and runs under your own Google account, so there is no server to host and
 nothing to pay for.
 
+**[Get your own copy](https://docs.google.com/spreadsheets/d/1PqqwYovN_38K8a_iryFHadgJ4RVLnFCOeXozG2-yq7g/copy)**:
+free, about 10 minutes, no code. Then follow [the install steps](#install-in-about-10-minutes-no-code).
+
 ![Dashboard showing overdue tasks, expiring contracts, renewals and this month's cash flow](docs/screenshots/dashboard.png)
 
 ## What it does
@@ -49,8 +52,9 @@ When you first run it, Google asks you to allow three things:
 
 ## Install in about 10 minutes (no code)
 
-1. Open the template and choose **Make a copy**: <!-- TEMPLATE_COPY_LINK --> _link added at
-   release_. The copy is yours, in your own Google Drive.
+1. **[Make a copy of the Client-L template](https://docs.google.com/spreadsheets/d/1PqqwYovN_38K8a_iryFHadgJ4RVLnFCOeXozG2-yq7g/copy)**
+   and choose **Make a copy**. The copy is yours, in your own Google Drive; the template holds no
+   data.
 2. In your copy, wait a few seconds for the **Client-L** menu to appear, then choose
    **Client-L > Set up this sheet**. Approve the permissions (see the table above).
    Google may warn that the app is unverified, because it is your own private copy: choose
