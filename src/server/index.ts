@@ -53,7 +53,7 @@ export function setup(): string {
   return summary;
 }
 
-const MENU_NAME = 'Client Task Tracker';
+const MENU_NAME = 'Client-L';
 
 /** Simple trigger: adds the app's menu when the sheet opens. */
 export function onOpen(): void {

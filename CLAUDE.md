@@ -2,7 +2,7 @@
 
 Guidance for Claude Code and any contributor working in this repository.
 
-Client Task Tracker is a Google Apps Script web app bound to a Google Sheet. The front end is
+Client-L is a Google Apps Script web app bound to a Google Sheet. The front end is
 React + TypeScript bundled by Vite into one HTML file; the back end is Apps Script written in
 TypeScript and bundled with esbuild.
 

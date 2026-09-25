@@ -4,7 +4,7 @@ The steps to publish a version, in order. Steps 1 to 3 are only needed for the f
 
 ## 1. Publish the repository
 
-1. Create a public GitHub repository (for example `client-task-tracker`).
+1. Create a public GitHub repository (for example `client-l`).
 2. `git remote add origin <url>` and `git push -u origin main`.
 3. Check that the **CI** workflow passes on GitHub.
 4. Replace `<!-- REPOSITORY_URL -->` in `README.md` with the repository URL.
@@ -16,7 +16,7 @@ gets its contents.
 
 1. Sign in with the Google account that will own the template. A separate account is best, so
    your own sheets never share a Drive with it.
-2. From a clean clone, run `npx clasp create --type sheets --title "Client Task Tracker" --rootDir dist`
+2. From a clean clone, run `npx clasp create --type sheets --title "Client-L" --rootDir dist`
    and `npm run push`.
 3. Open the new sheet. **Do not run Set up** and do not add sample data: each person who copies it
    runs setup themselves, which adds their own email to their own copy.
@@ -32,7 +32,7 @@ gets its contents.
 Use an account that has never seen the app, in a private window. Time it: it should take under
 10 minutes.
 
-- [ ] The copy link offers **Make a copy**, and the copy opens with the **Client Task Tracker** menu.
+- [ ] The copy link offers **Make a copy**, and the copy opens with the **Client-L** menu.
 - [ ] **Set up this sheet** asks for the three permissions in the README, then creates the Clients,
       Tasks, Contracts, Subscriptions, Transactions and Settings tabs.
 - [ ] The `Allowed emails` setting contains only the test account's email.

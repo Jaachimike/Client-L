@@ -1,4 +1,4 @@
-# Client Task Tracker
+# Client-L
 
 A private web app for freelancers and consultants: every client, task, maintenance contract,
 subscription you manage for them, and payment in or out, in one place. Everything is stored in
@@ -45,18 +45,18 @@ When you first run it, Google asks you to allow three things:
 | ---------------------------------------- | ------------------------------------------------------------ |
 | See and edit the spreadsheet it runs in  | Your data lives in this one sheet and nowhere else.          |
 | See your email address                   | To check the person opening the app is on your allowed list. |
-| Show menus and alerts in the spreadsheet | For the Client Task Tracker menu (set up, sample data).      |
+| Show menus and alerts in the spreadsheet | For the Client-L menu (set up, sample data).                 |
 
 ## Install in about 10 minutes (no code)
 
 1. Open the template and choose **Make a copy**: <!-- TEMPLATE_COPY_LINK --> _link added at
    release_. The copy is yours, in your own Google Drive.
-2. In your copy, wait a few seconds for the **Client Task Tracker** menu to appear, then choose
-   **Client Task Tracker > Set up this sheet**. Approve the permissions (see the table above).
+2. In your copy, wait a few seconds for the **Client-L** menu to appear, then choose
+   **Client-L > Set up this sheet**. Approve the permissions (see the table above).
    Google may warn that the app is unverified, because it is your own private copy: choose
-   **Advanced > Go to Client Task Tracker**. Setup creates the tabs and adds your email to the
+   **Advanced > Go to Client-L**. Setup creates the tabs and adds your email to the
    allowed list.
-3. Optional: **Client Task Tracker > Add sample data** to see how everything works. Remove it any
+3. Optional: **Client-L > Add sample data** to see how everything works. Remove it any
    time with **Clear sample data**; your own records are never touched.
 4. Choose **Extensions > Apps Script**, then **Deploy > New deployment**. Pick the type **Web
    app**, set **Execute as** to _Me_ and **Who has access** to _Anyone with a Google account_,
@@ -75,7 +75,7 @@ git clone https://github.com/Jaachimike/solo-dev-tracker.git
 cd solo-dev-tracker
 npm ci
 npx clasp login
-npx clasp create --type sheets --title "Client Task Tracker" --rootDir dist
+npx clasp create --type sheets --title "Client-L" --rootDir dist
 npm run push
 ```
 
@@ -130,7 +130,7 @@ own site is not supported, because Google's sign-in page will not load inside a 
 
 | You see                          | What to do                                                              |
 | -------------------------------- | ----------------------------------------------------------------------- |
-| "Setup needed"                   | Run **Client Task Tracker > Set up this sheet** in the spreadsheet.     |
+| "Setup needed"                   | Run **Client-L > Set up this sheet** in the spreadsheet.                |
 | "Access denied" for yourself     | Check your email is in the `Allowed emails` row of the Settings tab.    |
 | "Sorry, unable to open the file" | Use a browser profile signed in to only one Google account (see above). |
 | The menu does not appear         | Reload the spreadsheet and wait a few seconds.                          |

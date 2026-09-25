@@ -27,7 +27,7 @@ export const DEFAULT_SETTINGS: Record<string, string> = {
   [SETTING_KEYS.currencies]: '',
   [SETTING_KEYS.categories]: DEFAULT_CATEGORIES.join(', '),
   [SETTING_KEYS.expiryWarningDays]: '30',
-  [SETTING_KEYS.appName]: 'Client Task Tracker',
+  [SETTING_KEYS.appName]: 'Client-L',
 };
 
 const FALLBACK_CURRENCY = 'USD';

@@ -10,7 +10,7 @@ const DATA_TABS = ['Clients', 'Tasks', 'Contracts', 'Subscriptions', 'Transactio
 describe('access control', () => {
   it('serves the app to an allowlisted email', () => {
     const { deps } = freshApp();
-    expect(decidePage(deps)).toEqual({ kind: 'app', appName: 'Client Task Tracker' });
+    expect(decidePage(deps)).toEqual({ kind: 'app', appName: 'Client-L' });
   });
 
   it('shows "Access denied" and no data to an email not on the allowlist', () => {
