@@ -6,6 +6,8 @@ All notable changes to this project are documented here. The format follows
 
 ## [Unreleased]
 
+## [1.0.0] - 2026-09-26
+
 ### Added
 
 - Private access: only Google accounts on the allowlist in Settings can open the app or call it.
@@ -51,3 +53,6 @@ All notable changes to this project are documented here. The format follows
 ### Permissions
 
 - The app now also asks to show menus and alerts in its own spreadsheet, for the new menu.
+
+[Unreleased]: https://github.com/Jaachimike/Client-L/compare/v1.0.0...HEAD
+[1.0.0]: https://github.com/Jaachimike/Client-L/releases/tag/v1.0.0
