@@ -41,6 +41,8 @@ export interface Bootstrap {
   warningDays: number;
   categories: string[];
   hasSampleData: boolean;
+  /** The server code's version, so the page can spot a half-finished manual update. */
+  version: string;
 }
 
 export type DueFilter = 'any' | 'overdue' | 'week' | 'none';

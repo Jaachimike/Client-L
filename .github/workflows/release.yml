@@ -1,0 +1,36 @@
+name: Release
+
+on:
+  push:
+    tags: ['v*']
+
+permissions:
+  contents: write
+
+jobs:
+  release:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+      - run: npm ci
+      - name: Check the tag matches package.json
+        run: |
+          expected="v$(node -p "require('./package.json').version")"
+          if [ "$GITHUB_REF_NAME" != "$expected" ]; then
+            echo "Tag $GITHUB_REF_NAME does not match package.json version $expected"
+            exit 1
+          fi
+      - run: npm run check
+      # gh comes installed on GitHub's runners, so no third-party action is needed.
+      - name: Publish the release with the update files
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          gh release create "$GITHUB_REF_NAME" \
+            dist/Code.js dist/index.html dist/appsscript.json \
+            --title "Client-L $GITHUB_REF_NAME" \
+            --notes "See CHANGELOG.md for what changed. To update a copy without code, download Code.js, index.html and appsscript.json below and follow \"Updating without code\" in the README."

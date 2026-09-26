@@ -22,6 +22,19 @@ function globalWrappers(): string {
   ].join('\n');
 }
 
+function packageVersion(): string {
+  const parsed: unknown = JSON.parse(readFileSync('package.json', 'utf8'));
+  if (
+    typeof parsed === 'object' &&
+    parsed !== null &&
+    'version' in parsed &&
+    typeof parsed.version === 'string'
+  ) {
+    return parsed.version;
+  }
+  throw new Error('package.json has no version');
+}
+
 async function buildServer(): Promise<void> {
   const result = await bundle({
     entryPoints: ['src/server/index.ts'],
@@ -33,6 +46,7 @@ async function buildServer(): Promise<void> {
     mainFields: ['module', 'main'],
     write: false,
     legalComments: 'none',
+    define: { __APP_VERSION__: JSON.stringify(packageVersion()) },
   });
   const code = result.outputFiles[0]?.text ?? '';
   writeFileSync(`${DIST}/Code.js`, `${code}\n${globalWrappers()}\n`);
