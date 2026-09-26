@@ -75,8 +75,8 @@ When you first run it, Google asks you to allow three things:
 You need Node.js 22 or later and a Google account.
 
 ```sh
-git clone https://github.com/Jaachimike/solo-dev-tracker.git
-cd solo-dev-tracker
+git clone https://github.com/Jaachimike/Client-L.git
+cd Client-L
 npm ci
 npx clasp login
 npx clasp create --type sheets --title "Client-L" --rootDir dist
