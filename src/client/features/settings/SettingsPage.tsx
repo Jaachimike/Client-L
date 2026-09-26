@@ -9,6 +9,7 @@ import { AccessList } from './AccessList';
 import { DefaultsForm } from './DefaultsForm';
 import { SampleDataCard } from './SampleDataCard';
 import { StatusEditor } from './StatusEditor';
+import { VersionCard } from './VersionCard';
 
 export function SettingsPage({ bootstrap }: { bootstrap: Bootstrap }) {
   const tasksQuery = useTasks();
@@ -32,6 +33,7 @@ export function SettingsPage({ bootstrap }: { bootstrap: Bootstrap }) {
           <AccessList allowedEmails={bootstrap.allowedEmails} ownEmail={bootstrap.email} />
           <DefaultsForm bootstrap={bootstrap} />
           <SampleDataCard hasSampleData={bootstrap.hasSampleData} />
+          <VersionCard serverVersion={bootstrap.version} />
         </div>
       </div>
     </>

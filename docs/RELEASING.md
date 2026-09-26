@@ -45,11 +45,22 @@ Use an account that has never seen the app, in a private window. Time it: it sho
 
 ## 4. Tag the release
 
-1. In `CHANGELOG.md`, rename `## [Unreleased]` to `## [1.0.0] - YYYY-MM-DD` and add a new empty
-   `## [Unreleased]` above it.
-2. Make sure `package.json` has the same version.
+The examples use `1.0.0`; use the new version number each time.
+
+1. Set the version in `package.json` (and `package-lock.json`) with
+   `npm version 1.0.0 --no-git-tag-version`. Skip this if it is already right. The app shows this
+   number under **Settings > About**.
+2. In `CHANGELOG.md`, rename `## [Unreleased]` to `## [1.0.0] - YYYY-MM-DD` and add a new empty
+   `## [Unreleased]` above it. If `appsscript.json` changed (for example a new permission), say so
+   under a **Permissions** heading, because people updating by hand will be asked to approve it.
 3. Commit: `chore: release v1.0.0`.
 4. `git tag v1.0.0` and `git push origin main v1.0.0`.
-5. Check that CI passes on the tag, then create a GitHub release from it with the CHANGELOG notes.
+5. The **Release** workflow then runs on the tag. It checks that the tag matches `package.json`,
+   runs every check, builds the app, and creates the GitHub release with `Code.js`, `index.html`
+   and `appsscript.json` attached. Those are the files the README's "Updating without code" steps
+   use. Wait for it to pass, then edit the release notes on GitHub and paste in the CHANGELOG
+   section.
 6. Update the template sheet with `npm run push` from the tagged commit, so new copies get the
-   released code.
+   released code. Do not run setup on the template.
+7. Optional: follow "Updating without code" on a test copy made from the previous release, to
+   check the update path still works.

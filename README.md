@@ -89,13 +89,45 @@ Tracker > Set up this sheet** and deploy as in step 4 above.
 
 ## Updating
 
-- **Template copies:** your copy keeps working as it is. A new copy of the template starts empty, so
-  it is not a way to update. To move an existing sheet to a new version, follow the developer steps
-  against it (copy its script ID from **Extensions > Apps Script > Project settings** into
-  `.clasp.json`).
-- **Developers:** run `npm run push`, then **Deploy > Manage deployments > Edit > Version: New
-  version > Deploy**. The web app URL stays the same. If the release notes mention new tabs or
-  settings, run **Set up this sheet** again; it only adds what is missing.
+Updating only replaces the app's code. Your clients, tasks and money records stay in the sheet and
+are never changed. Your copy never updates by itself: you choose when, and you can read the new
+code on GitHub first. Nothing about your data is sent anywhere when you update.
+
+To see which version you have, open **Settings** in the app and look under **About**.
+
+### Updating without code
+
+1. Open the [latest release](https://github.com/Jaachimike/Client-L/releases/latest) and download
+   the three files under **Assets**: `Code.js`, `index.html` and `appsscript.json`. The release
+   notes say what changed.
+2. In your Client-L sheet, choose **Extensions > Apps Script**.
+3. The first time only: click **Project settings** (the gear icon) and tick **Show
+   "appsscript.json" manifest file in editor**. Then click **Editor** (the `< >` icon) to go back.
+4. For each file, open the matching file in the editor, select everything in it (Ctrl+A, or Cmd+A
+   on a Mac), delete it, paste in the whole downloaded file, and click **Save** (the disk icon):
+
+   | Downloaded file   | File in the editor |
+   | ----------------- | ------------------ |
+   | `Code.js`         | `Code.gs`          |
+   | `index.html`      | `index.html`       |
+   | `appsscript.json` | `appsscript.json`  |
+
+   Open the downloaded files in a plain text editor (Notepad, TextEdit or VS Code), not a word
+   processor, so nothing changes when you copy them.
+
+5. Choose **Deploy > Manage deployments**, click the pencil, set **Version** to _New version_ and
+   click **Deploy**. Your web app address stays the same.
+6. Reload the spreadsheet and run **Client-L > Set up this sheet**. It adds any new tabs or settings
+   and leaves everything else alone. If Google asks for permissions again, the release notes explain
+   what is new.
+7. Open the app and check that **Settings > About** shows the new version. If it warns that the page
+   and the server code are from different versions, one file was missed: paste it and deploy again.
+
+### Updating from the code
+
+Developers can run `git pull`, `npm ci` and `npm run push` with `.clasp.json` pointing at the
+sheet's script (its ID is under **Extensions > Apps Script > Project settings**), then follow steps
+5 to 7 above.
 
 ## Letting other people in
 

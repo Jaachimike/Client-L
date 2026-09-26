@@ -42,6 +42,11 @@ All notable changes to this project are documented here. The format follows
 - README with screenshots, a no-code install from a template copy, permissions explained, a
   troubleshooting table and how to use your own web address; LICENSE (MIT), CONTRIBUTING.md and
   issue templates.
+- Updating without code: each GitHub release carries `Code.js`, `index.html` and
+  `appsscript.json`, and the README explains how to paste them into your copy. Your data is never
+  touched and nothing is sent anywhere.
+- **Settings > About** shows the version you are running, and warns if the page and the server
+  code come from different versions after a manual update.
 
 ### Permissions
 

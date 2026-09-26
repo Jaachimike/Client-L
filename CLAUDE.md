@@ -143,3 +143,11 @@ TypeScript and bundled with esbuild.
   window for contracts and subscriptions. The warning window always appears as a filter chip.
 - Releases follow `docs/RELEASING.md`; the template sheet is published without running setup so
   it holds no data or emails.
+- Copies never update themselves. Pushing a `v*` tag runs `.github/workflows/release.yml`, which
+  checks the tag matches `package.json`, runs `npm run check`, and attaches `dist/Code.js`,
+  `dist/index.html` and `dist/appsscript.json` to the GitHub release for manual pasting. Do not
+  switch to an Apps Script library or any shared code in the maintainer's account: that would let
+  the maintainer's code reach every copy's data and break the privacy promise.
+- The version comes from `package.json` and is stamped into both bundles as `__APP_VERSION__`
+  (see `src/shared/version.ts`); Settings compares the page's version with the server's to catch
+  half-finished manual updates.
